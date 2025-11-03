@@ -1,0 +1,133 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	Z:/fhw/main/rtsp/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220320.0/
+$(TARGET)	./Makefile	/^$(TARGET):	$(OBJFILES)  $/;"	t
+ALL	./Makefile	/^ALL = $(TARGET)$/;"	m
+CCFLAGS	./Makefile	/^CCFLAGS:=$(CFLAGS)$/;"	m
+CFG_CHNERR	./media.h	/^#define CFG_CHNERR /;"	d
+CFG_SUBWIN	./media.h	/^#define CFG_SUBWIN /;"	d
+CFLAGS	./Makefile	/^CFLAGS := -Wall $(DEFS) -I.  -g $/;"	m
+CXXFLAGS	./Makefile	/^CXXFLAGS:=$(CFLAGS)$/;"	m
+DEFS	./Makefile	/^DEFS =$/;"	m
+INCLUDES	./Makefile	/^INCLUDES=$(wildcard *.h)$/;"	m
+INSTALL_DIR	./Makefile	/^INSTALL_DIR=\/home\/work\/nfs\/nvr$/;"	m
+LIBPATH	./Makefile	/^LIBPATH := $/;"	m
+LIBS	./Makefile	/^LIBS := -lpthread ..\/connet\/connet.a$/;"	m
+OBJFILES	./Makefile	/^OBJFILES = $(SOURCES:%.c=obj\/%.o)$/;"	m
+PKG_MAGIC	./media.h	/^#define PKG_MAGIC /;"	d
+RTSP200	./rtsp.h	/^#define RTSP200 /;"	d
+RTSP301	./rtsp.h	/^#define RTSP301 /;"	d
+RTSP302	./rtsp.h	/^#define RTSP302 /;"	d
+RTSP401	./rtsp.h	/^#define RTSP401 /;"	d
+RTSPERR	./rtsp.h	/^#define RTSPERR /;"	d
+RTSP_BAD	./rtsp.h	/^typedef enum{RTSP_BAD=-1,RTSP_MIN=0,RTSP_TXT=1,RTSP_BIN,RTSP_NO_H264} RTSP_TYPE;$/;"	e	enum:__anon23d8d6610103
+RTSP_BIN	./rtsp.h	/^typedef enum{RTSP_BAD=-1,RTSP_MIN=0,RTSP_TXT=1,RTSP_BIN,RTSP_NO_H264} RTSP_TYPE;$/;"	e	enum:__anon23d8d6610103
+RTSP_MIN	./rtsp.h	/^typedef enum{RTSP_BAD=-1,RTSP_MIN=0,RTSP_TXT=1,RTSP_BIN,RTSP_NO_H264} RTSP_TYPE;$/;"	e	enum:__anon23d8d6610103
+RTSP_NO_H264	./rtsp.h	/^typedef enum{RTSP_BAD=-1,RTSP_MIN=0,RTSP_TXT=1,RTSP_BIN,RTSP_NO_H264} RTSP_TYPE;$/;"	e	enum:__anon23d8d6610103
+RTSP_TXT	./rtsp.h	/^typedef enum{RTSP_BAD=-1,RTSP_MIN=0,RTSP_TXT=1,RTSP_BIN,RTSP_NO_H264} RTSP_TYPE;$/;"	e	enum:__anon23d8d6610103
+RTSP_TYPE	./rtsp.h	/^typedef enum{RTSP_BAD=-1,RTSP_MIN=0,RTSP_TXT=1,RTSP_BIN,RTSP_NO_H264} RTSP_TYPE;$/;"	t	typeref:enum:__anon23d8d6610103
+SOURCES	./Makefile	/^SOURCES =  $(wildcard *.c) $/;"	m
+TARGET	./Makefile	/^TARGET = main_bin$/;"	m
+_DEBUG	./main.c	/^#define _DEBUG$/;"	d	file:
+_MEDIA_H	./media.h	/^#define _MEDIA_H$/;"	d
+_RTSP_H	./rtsp.h	/^#define _RTSP_H$/;"	d
+_SHMRING_H	./shmring.h	/^#define _SHMRING_H$/;"	d
+__anon23d8d6610103	./rtsp.h	/^typedef enum{RTSP_BAD=-1,RTSP_MIN=0,RTSP_TXT=1,RTSP_BIN,RTSP_NO_H264} RTSP_TYPE;$/;"	g
+all	./Makefile	/^all: prepare $(ALL)$/;"	t
+auth	./rtsp.h	/^	str_t auth;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+camAddress	./media.h	/^	char    camAddress[64];$/;"	m	struct:mediaInfo_st	typeref:typename:char[64]
+camPasswd	./media.h	/^	char   	camPasswd[32];$/;"	m	struct:mediaInfo_st	typeref:typename:char[32]
+camPort	./media.h	/^	int 	camPort;$/;"	m	struct:mediaInfo_st	typeref:typename:int
+camUrl	./media.h	/^	char    camUrl[128];$/;"	m	struct:mediaInfo_st	typeref:typename:char[128]
+camUser	./media.h	/^	char	camUser[32];  $/;"	m	struct:mediaInfo_st	typeref:typename:char[32]
+chn	./media.h	/^	int chn;$/;"	m	struct:netConfig_st	typeref:typename:int
+chn	./rtsp.h	/^	int chn;$/;"	m	struct:rtspClient_st	typeref:typename:int
+chnStatus	./rtsp.c	/^struct chnStatus_st chnStatus;$/;"	v	typeref:struct:chnStatus_st
+chnStatus_st	./media.h	/^struct chnStatus_st{ \/\/和解码器通信的接口$/;"	s
+clean	./Makefile	/^clean:$/;"	t
+config_pkg	./main.c	/^int config_pkg(buf_t buf, size_t *PkgLen)$/;"	f	typeref:typename:int
+conn	./rtsp.h	/^	conn_t conn;$/;"	m	struct:rtspClient_st	typeref:typename:conn_t
+contentBase	./rtsp.h	/^	str_t contentBase;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+control	./rtsp.h	/^	str_t control;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+cseq	./rtsp.h	/^	int cseq;$/;"	m	struct:rtspClient_st	typeref:typename:int
+data	./shmring.h	/^    u_char  data[1600];\/\/初始化的时候按实际分配大小以及类型$/;"	m	struct:rtpPkg_st	typeref:typename:u_char[1600]
+debug	./main.c	/^	#define debug(/;"	d	file:
+debug	./rtsp.c	/^	#define debug(/;"	d	file:
+do_next	./rtsp.h	/^	rtsp_handler do_next;$/;"	m	struct:rtspClient_st	typeref:typename:rtsp_handler
+do_response	./rtsp.c	/^static int do_response(rtspClient_t rc,u_char* data, size_t len)$/;"	f	typeref:typename:int	file:
+err	./media.h	/^	int err;$/;"	m	struct:chnStatus_st	typeref:typename:int
+free_media	./media.c	/^void free_media(void)$/;"	f	typeref:typename:void
+free_old_subwin	./media.c	/^void free_old_subwin(int current,int old)$/;"	f	typeref:typename:void
+free_rtsp_clients	./rtsp.c	/^int free_rtsp_clients(rtspClient_t rc)$/;"	f	typeref:typename:int
+generate_auth	./rtsp.c	/^static void generate_auth(rtspClient_t rc, char* cmd)$/;"	f	typeref:typename:void	file:
+get_resp_len	./rtsp.c	/^static RTSP_TYPE get_resp_len(buf_t buf, size_t *PkgLen)$/;"	f	typeref:typename:RTSP_TYPE	file:
+got_sig_term	./main.c	/^static int got_sig_term = 0;$/;"	v	typeref:typename:int	file:
+id	./media.h	/^	int id;$/;"	m	struct:chnStatus_st	typeref:typename:int
+id	./shmring.h	/^	int id ;$/;"	m	struct:rtpPkg_st	typeref:typename:int
+init_accepted_conn	./main.c	/^int init_accepted_conn(conn_t c,void *arg)$/;"	f	typeref:typename:int
+init_media	./media.c	/^void init_media()$/;"	f	typeref:typename:void
+init_rtsp_clients	./rtsp.c	/^rtspClient_t init_rtsp_clients(poolList_t list,char *ip,int port,char *user,char *passwd,char *u/;"	f	typeref:typename:rtspClient_t
+install	./Makefile	/^install:$/;"	t
+len	./shmring.h	/^	int   len;$/;"	m	struct:rtpPkg_st	typeref:typename:int
+list	./main.c	/^poolList_t list;$/;"	v	typeref:typename:poolList_t
+magic	./media.h	/^	int     magic;$/;"	m	struct:netConfig_st	typeref:typename:int
+magic	./shmring.h	/^	char magic[8];$/;"	m	struct:rtpPkg_st	typeref:typename:char[8]
+main	./main.c	/^int main()$/;"	f	typeref:typename:int
+mediaInfo	./media.h	/^	struct mediaInfo_st mediaInfo;\/\/$/;"	m	struct:netConfig_st	typeref:struct:mediaInfo_st
+mediaInfo_st	./media.h	/^struct mediaInfo_st{$/;"	s
+mediaSession_st	./rtsp.h	/^struct mediaSession_st{$/;"	s
+mediaSession_t	./rtsp.h	/^typedef struct mediaSession_st  *mediaSession_t; $/;"	t	typeref:struct:mediaSession_st *
+netConfig_st	./media.h	/^struct netConfig_st{$/;"	s
+netConfig_t	./media.h	/^typedef struct netConfig_st  *netConfig_t;$/;"	t	typeref:struct:netConfig_st *
+nonce	./rtsp.h	/^	str_t nonce;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+obj/%.o	./Makefile	/^obj\/%.o:%.c  $(INCLUDES)$/;"	t
+on_sig_term	./main.c	/^static void on_sig_term(int sig)$/;"	f	typeref:typename:void	file:
+passwd	./rtsp.h	/^	str_t	passwd;$/;"	m	struct:rtspClient_st	typeref:typename:str_t
+pool	./rtsp.h	/^	pool_t pool;$/;"	m	struct:rtspClient_st	typeref:typename:pool_t
+pps	./rtsp.h	/^	str_t pps;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+prepare	./Makefile	/^prepare:$/;"	t
+rc	./media.c	/^rtspClient_t rc[16];$/;"	v	typeref:typename:rtspClient_t[16]
+realm	./rtsp.h	/^	str_t realm;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+res	./media.h	/^	int		res;$/;"	m	struct:mediaInfo_st	typeref:typename:int
+rtpPkg	./main.c	/^rtpPkg_t rtpPkg;$/;"	v	typeref:typename:rtpPkg_t
+rtpPkg_st	./shmring.h	/^struct rtpPkg_st {$/;"	s
+rtpPkg_t	./shmring.h	/^typedef struct rtpPkg_st  	*rtpPkg_t;$/;"	t	typeref:struct:rtpPkg_st *
+rtspClient_st	./rtsp.h	/^struct rtspClient_st{$/;"	s
+rtspClient_t	./rtsp.h	/^typedef struct rtspClient_st  	*rtspClient_t; $/;"	t	typeref:struct:rtspClient_st *
+rtsp_connect_handler	./rtsp.c	/^static int rtsp_connect_handler(event_t ev)$/;"	f	typeref:typename:int	file:
+rtsp_handler	./rtsp.h	/^typedef int (*rtsp_handler)(rtspClient_t rc);$/;"	t	typeref:typename:int (*)(rtspClient_t rc)
+rtsp_read_handle	./rtsp.c	/^static int rtsp_read_handle(event_t ev)$/;"	f	typeref:typename:int	file:
+rtsp_reconnect_peer	./rtsp.c	/^static int rtsp_reconnect_peer(event_t ev)$/;"	f	typeref:typename:int	file:
+rtsp_rewrite_handle	./rtsp.c	/^static int rtsp_rewrite_handle(event_t ev)$/;"	f	typeref:typename:int	file:
+search_pkg_head	./main.c	/^int search_pkg_head(buf_t buf)$/;"	f	typeref:typename:int
+search_rtsp_head	./rtsp.c	/^static int  search_rtsp_head(buf_t buf)$/;"	f	typeref:typename:int	file:
+send_describe	./rtsp.c	/^static int send_describe(rtspClient_t rc)$/;"	f	typeref:typename:int	file:
+send_option	./rtsp.c	/^static int send_option(rtspClient_t rc)$/;"	f	typeref:typename:int	file:
+send_pkg	./shmring.c	/^void send_pkg(conn_t c,int id,u_char* data,int size)$/;"	f	typeref:typename:void
+send_play	./rtsp.c	/^static int send_play(rtspClient_t rc)$/;"	f	typeref:typename:int	file:
+send_setup	./rtsp.c	/^static int send_setup(rtspClient_t rc)$/;"	f	typeref:typename:int	file:
+send_teardown	./rtsp.c	/^static int send_teardown(rtspClient_t rc)$/;"	f	typeref:typename:int	file:
+server_read_handle	./main.c	/^int server_read_handle(event_t ev)$/;"	f	typeref:typename:int
+server_write_handle	./main.c	/^int server_write_handle(event_t ev)$/;"	f	typeref:typename:int
+sess	./rtsp.h	/^	mediaSession_t sess;$/;"	m	struct:rtspClient_st	typeref:typename:mediaSession_t
+session	./rtsp.h	/^	str_t session;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+set_cam_chn	./media.c	/^int set_cam_chn(int chn,netConfig_t netCfg)$/;"	f	typeref:typename:int
+sps	./rtsp.h	/^	str_t sps;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+subwin	./media.h	/^	int subwin; \/\/1 4 6 9 16$/;"	m	struct:netConfig_st	typeref:typename:int
+subwin	./media.h	/^	int subwin;$/;"	m	struct:chnStatus_st	typeref:typename:int
+success	./rtsp.h	/^	unsigned success:1; \/\/成功获取码流$/;"	m	struct:rtspClient_st	typeref:typename:unsigned:1
+transport	./rtsp.h	/^	str_t transport;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+unixBuf	./main.c	/^buf_t unixBuf;$/;"	v	typeref:typename:buf_t
+unixFd	./main.c	/^conn_t unixFd;$/;"	v	typeref:typename:conn_t
+unix_write_handle	./main.c	/^int unix_write_handle(event_t ev)$/;"	f	typeref:typename:int
+update	./media.h	/^	int update; \/\/表示该通道切换了视频源，可以进行reset操作$/;"	m	struct:chnStatus_st	typeref:typename:int
+url	./rtsp.h	/^	str_t url;$/;"	m	struct:mediaSession_st	typeref:typename:str_t
+user	./rtsp.h	/^	str_t	user;$/;"	m	struct:rtspClient_st	typeref:typename:str_t

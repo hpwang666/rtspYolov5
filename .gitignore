@@ -1,0 +1,16 @@
+**/obj
+**/libs
+*_bin
+**/lib
+**/zlog
+**/connet
+!aa_bin #aa_bin又会被包含----感叹号
+*.o
+*.a
+*.so
+*.lo
+*.la
+*.al
+*.log
+*~
+**/.vscode

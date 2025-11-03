@@ -1,0 +1,55 @@
+CROSS_COMPILE :=
+CROSS_PATH := 
+
+
+CC := $(CROSS_COMPILE)gcc 
+CXX := $(CROSS_COMPILE)g++ 
+LD := $(CROSS_COMPILE)ld 
+STRIP := $(CROSS_COMPILE)strip 
+OBJCOPY := $(CROSS_COMPILE)objcopy 
+OBJDUMP := $(CROSS_COMPILE)objdump 
+AR := $(CROSS_COMPILE)ar cr 
+RANLIB := $(CROSS_COMPILE)ranlib 
+
+#\\t   insert tab
+define COMPILE
+    @echo -e $(1) \\t $<
+    @$($(1)) $($(1)FLAGS) -c -o $@ $<
+endef
+
+define COMPILE_OBJ
+    @echo -e $(1) \\t $<
+    @$($(1)) $($(2)) -c -o $@ $<
+endef
+
+define ARCHIVE
+    @echo -e AR  \\t $@ 
+    @$(AR) $@ $^ 
+endef
+
+define ASSEMBLE
+    @echo -e LD-$(1) \\t $@
+    @$($(1)) -o $@ $^ $(LIBS) $(LIBPATH)
+endef
+
+define ASSEMBLE_OBJS
+    @echo -e LD-$(1) \\t $@
+    @$($(1)) -o $@ $($(2)) $(LIBPATH)
+endef
+
+define ASSEMBLE_EXTRA
+    @echo -e LD-$(1) \\t $@
+    @$($(1)) -o $@ $^ $(LIBPATH) $(LIBS)
+endef
+
+
+COMPILE_CC = $(call COMPILE,CC)
+COMPILE_CXX = $(call COMPILE,CXX)
+LINK_CC =  $(call ASSEMBLE_EXTRA,CC)
+LINK_CXX =  $(call ASSEMBLE_EXTRA,CXX)
+AR_LIB = $(call ARCHIVE)
+
+
+define copyto
+    @cp -f $@ $(1)
+endef

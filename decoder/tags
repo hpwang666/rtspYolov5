@@ -1,0 +1,440 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AI_CHN_NUM	common/common.h	101;"	d
+AI_CHN_NUM	common/common.h	99;"	d
+ALIGN_BACK	common/common.h	124;"	d
+ALIGN_UP	common/common.h	123;"	d
+ALL	osal/Makefile	/^ALL = $(TARGET)$/;"	m
+AUDIO_CODEC_ACWRAPPER	common/common.h	/^    AUDIO_CODEC_ACWRAPPER,$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_ALC5616	common/common.h	/^    AUDIO_CODEC_ALC5616,$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_BUTT	common/common.h	/^    AUDIO_CODEC_BUTT$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_HDMI	common/common.h	/^    AUDIO_CODEC_HDMI,$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_INNER	common/common.h	/^    AUDIO_CODEC_INNER = 0,$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_NAU88C10	common/common.h	/^    AUDIO_CODEC_NAU88C10,$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_TLV320	common/common.h	/^    AUDIO_CODEC_TLV320,$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_TP28XX	common/common.h	/^    AUDIO_CODEC_TP28XX,$/;"	e	enum:fyAudioCodecType
+AUDIO_CODEC_TW2865	common/common.h	/^    AUDIO_CODEC_TW2865,$/;"	e	enum:fyAudioCodecType
+AudioCodecType	common/common.h	/^}AudioCodecType;$/;"	t	typeref:enum:fyAudioCodecType
+AudioFileT	common/common.h	/^}AudioFileT;$/;"	t	typeref:enum:__AudioFileT
+CCFLAGS	Makefile	/^CCFLAGS:=$(CFLAGS)$/;"	m
+CCFLAGS	osal/Makefile	/^CCFLAGS:=$(CFLAGS)$/;"	m
+CFLAGS	Makefile	/^CFLAGS :=   -Wall   $(DEFS)  $/;"	m
+CFLAGS	osal/Makefile	/^CFLAGS := -Wall $(DEFS) -I. -O0 -g$/;"	m
+CHECK_CHN_RET	common/common.h	49;"	d
+CHECK_RET	common/common.h	61;"	d
+CHNS	decoder.h	32;"	d
+CNT_PER_S	common/common.h	96;"	d
+CODEC_MASTER_MODE	common/common.h	105;"	d
+CODEC_MASTER_MODE	common/common.h	107;"	d
+CXXFLAGS	Makefile	/^CXXFLAGS:=$(CFLAGS)$/;"	m
+CXXFLAGS	osal/Makefile	/^CXXFLAGS:=$(CFLAGS)$/;"	m
+D1_HEIGHT	common/common.h	132;"	d
+D1_WIDTH	common/common.h	131;"	d
+D1_WIDTH_704	common/common.h	133;"	d
+DEC_TIMESTAMP	stream.c	30;"	d	file:
+DEFS	Makefile	/^DEFS = $/;"	m
+DEFS	osal/Makefile	/^DEFS =$/;"	m
+FILE_RECORD_EN	decoder.h	23;"	d
+FILE_TYPE_AENC	common/common.h	/^	FILE_TYPE_AENC,$/;"	e	enum:__AudioFileT
+FILE_TYPE_AI	common/common.h	/^	FILE_TYPE_AI,$/;"	e	enum:__AudioFileT
+FILE_TYPE_TOTAL	common/common.h	/^	FILE_TYPE_TOTAL$/;"	e	enum:__AudioFileT
+FRMAE_SIZE	common/common.h	95;"	d
+FY_VO_DEV_DHD0	common/vo.h	27;"	d
+FY_VO_DEV_DSD0	common/vo.h	29;"	d
+FY_VO_LAYER_VHD0	common/vo.h	28;"	d
+FY_VO_LAYER_VPIP	common/vo.h	31;"	d
+FY_VO_LAYER_VSD0	common/vo.h	30;"	d
+GOSD_DEFAULT_PIXEDEPTH	common/common.h	138;"	d
+HD_HEIGHT	common/common.h	129;"	d
+HD_WIDTH	common/common.h	128;"	d
+HEVCPPS_st	decoder.h	/^struct HEVCPPS_st {$/;"	s
+HEVCPPS_t	decoder.h	/^typedef struct HEVCPPS_st *HEVCPPS_t;$/;"	t	typeref:struct:HEVCPPS_st
+HIFB_LAYER_0	common/common.h	/^    HIFB_LAYER_0 = 0x0,$/;"	e	enum:__anon1
+HIFB_LAYER_1	common/common.h	/^    HIFB_LAYER_1,$/;"	e	enum:__anon1
+HIFB_LAYER_2	common/common.h	/^    HIFB_LAYER_2,$/;"	e	enum:__anon1
+HIFB_LAYER_CURSOR_0	common/common.h	/^    HIFB_LAYER_CURSOR_0,$/;"	e	enum:__anon1
+HIFB_LAYER_ID_BUTT	common/common.h	/^    HIFB_LAYER_ID_BUTT$/;"	e	enum:__anon1
+HIFB_LAYER_ID_E	common/common.h	/^} HIFB_LAYER_ID_E;$/;"	t	typeref:enum:__anon1
+INCLUDES	Makefile	/^INCLUDES=$(wildcard *.h)$/;"	m
+INSTALL_DIR	osal/Makefile	/^INSTALL_DIR=\/home\/work\/tftpboot$/;"	m
+LIBPATH	Makefile	/^LIBPATH :=  -L..\/lib -L..\/sqlite3\/output\/lib$/;"	m
+LIBPATH	osal/Makefile	/^LIBPATH := $/;"	m
+LIBS	Makefile	/^LIBS := -lsqlite3  -l:libmpi.a -l:libaudio_codec.a -lpthread -lm -ldl  .\/osal\/osal.a .\/connet.a$/;"	m
+LIBS	osal/Makefile	/^LIBS := -lpthread $/;"	m
+NULL	osal/osal.h	10;"	d
+NULL	osal/osaltype.h	7;"	d
+NULL	osal/tasks.h	6;"	d
+NULL	osal/timers.h	7;"	d
+NVP6134_FILE	common/common.h	75;"	d
+OBJFILES	Makefile	/^OBJFILES = $(SOURCES:%.c=obj\/%.o)$/;"	m
+OBJFILES	osal/Makefile	/^OBJFILES = $(SOURCES:%.c=obj\/%.o)$/;"	m
+OSALERR	osal/osaltype.h	14;"	d
+OSALMSG	osal/osaltype.h	13;"	d
+OSALSTART	osal/osaltype.h	11;"	d
+OSALSTOP	osal/osaltype.h	15;"	d
+OSALTIMER	osal/osaltype.h	12;"	d
+OSAL_CHECK	alltasks.h	15;"	d
+OSAL_PRINT1	alltasks.h	10;"	d
+PKG_BAD	decoder.h	/^typedef enum{PKG_BAD=-1,PKG_MIN=0,PKG_TXT=1} PKG_TYPE;$/;"	e	enum:__anon2
+PKG_LIST_LEN	decoder.h	21;"	d
+PKG_MIN	decoder.h	/^typedef enum{PKG_BAD=-1,PKG_MIN=0,PKG_TXT=1} PKG_TYPE;$/;"	e	enum:__anon2
+PKG_STARTED	decoder.h	/^	unsigned PKG_STARTED:1;			\/\/BUFER 是否接收到了  包头$/;"	m	struct:decoder_st
+PKG_TXT	decoder.h	/^typedef enum{PKG_BAD=-1,PKG_MIN=0,PKG_TXT=1} PKG_TYPE;$/;"	e	enum:__anon2
+PKG_TYPE	decoder.h	/^typedef enum{PKG_BAD=-1,PKG_MIN=0,PKG_TXT=1} PKG_TYPE;$/;"	t	typeref:enum:__anon2
+PLAYBACK_CMD_CODE	common/common.h	/^}PLAYBACK_CMD_CODE;$/;"	t	typeref:enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_AJUST_CHANNEL	common/common.h	/^	PLAYBACK_CMD_CODE_AJUST_CHANNEL, \/* cmd_parm: -1: decrase, 1: increase *\/$/;"	e	enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_AUTO_CHANNELS	common/common.h	/^	PLAYBACK_CMD_CODE_AUTO_CHANNELS, \/* cmd_parm: 0: stop, 1: start *\/$/;"	e	enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_AUTO_CHANNELS_ONOFF	common/common.h	/^	PLAYBACK_CMD_CODE_AUTO_CHANNELS_ONOFF, \/* cmd_parm: 0: stop, 1: start *\/$/;"	e	enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_AUTO_SPEED	common/common.h	/^	PLAYBACK_CMD_CODE_AUTO_SPEED, \/* cmd_parm: 0: stop, 1: start *\/$/;"	e	enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_E	common/common.h	/^typedef enum PLAYBACK_CMD_CODE_E$/;"	g
+PLAYBACK_CMD_CODE_ONOFF_CHANNEL	common/common.h	/^	PLAYBACK_CMD_CODE_ONOFF_CHANNEL,$/;"	e	enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_PAUSE_RESUME	common/common.h	/^	PLAYBACK_CMD_CODE_PAUSE_RESUME,  \/* cmd_parm: 0-pause, 1-resume *\/$/;"	e	enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_SPEED	common/common.h	/^	PLAYBACK_CMD_CODE_SPEED = 0, \/* cmd_parm: frame rate,*\/$/;"	e	enum:PLAYBACK_CMD_CODE_E
+PLAYBACK_CMD_CODE_USERPIC	common/common.h	/^	PLAYBACK_CMD_CODE_USERPIC,  \/* cmd_parm: 0-hide, 1-show *\/$/;"	e	enum:PLAYBACK_CMD_CODE_E
+RGN_CHANGE_TYPE_BGALPHA	common/common.h	/^    RGN_CHANGE_TYPE_BGALPHA,$/;"	e	enum:sample_rgn_change_type_e
+RGN_CHANGE_TYPE_FGALPHA	common/common.h	/^    RGN_CHANGE_TYPE_FGALPHA = 0,$/;"	e	enum:sample_rgn_change_type_e
+RGN_CHANGE_TYPE_LAYER	common/common.h	/^    RGN_CHANGE_TYPE_LAYER$/;"	e	enum:sample_rgn_change_type_e
+RTP_ERR	stream.h	26;"	d
+RTP_HEADLEN	stream.c	151;"	d	file:
+RTP_I	stream.h	21;"	d
+RTP_P	stream.h	22;"	d
+RTP_PKG	stream.h	23;"	d
+RTP_PPS	stream.h	19;"	d
+RTP_SPS	stream.h	20;"	d
+RTP_VPS	stream.h	24;"	d
+SAMPLE_1080P_H264_PATH	common/common.h	111;"	d
+SAMPLE_1080P_H265_PATH	common/common.h	112;"	d
+SAMPLE_1080P_JPEG_PATH	common/common.h	117;"	d
+SAMPLE_1080P_MPEG4_PATH	common/common.h	115;"	d
+SAMPLE_4K_H264_PATH	common/common.h	113;"	d
+SAMPLE_4K_H265_PATH	common/common.h	114;"	d
+SAMPLE_4K_JPEG_PATH	common/common.h	118;"	d
+SAMPLE_AAC_FRM_SIZE	common/common.h	94;"	d
+SAMPLE_AUDIO_AI_DEV	common/common.h	83;"	d
+SAMPLE_AUDIO_AI_DEV	common/common.h	86;"	d
+SAMPLE_AUDIO_AI_DEV	common/common.h	89;"	d
+SAMPLE_AUDIO_AO_DEV	common/common.h	84;"	d
+SAMPLE_AUDIO_AO_DEV	common/common.h	87;"	d
+SAMPLE_AUDIO_AO_DEV	common/common.h	90;"	d
+SAMPLE_AUDIO_FRM_SIZE	common/common.h	93;"	d
+SAMPLE_AUDIO_HDMI_AO_DEV	common/common.h	81;"	d
+SAMPLE_AUDIO_PTNUMPERFRM	common/common.h	78;"	d
+SAMPLE_AUDIO_RATE	common/common.h	92;"	d
+SAMPLE_AUDIO_TLV320_DEV	common/common.h	79;"	d
+SAMPLE_AUDIO_TW2865_DEV	common/common.h	80;"	d
+SAMPLE_CIF_H264_PATH	common/common.h	110;"	d
+SAMPLE_FIELD_H264_PATH	common/common.h	116;"	d
+SAMPLE_MAX_VDEC_CHN_CNT	common/common.h	120;"	d
+SAMPLE_MEMBUF_S	common/common.h	/^} SAMPLE_MEMBUF_S;$/;"	t	typeref:struct:fysample_MEMBUF_S
+SAMPLE_PIXEL_FORMAT	common/common.h	73;"	d
+SAMPLE_PRT	common/common.h	140;"	d
+SAMPLE_RGN_CHANGE_TYPE_EN	common/common.h	/^}SAMPLE_RGN_CHANGE_TYPE_EN;$/;"	t	typeref:enum:sample_rgn_change_type_e
+SAMPLE_SYS_ALIGN_WIDTH	common/sys.h	11;"	d
+SAMPLE_VI_PARAM_S	common/common.h	/^}SAMPLE_VI_PARAM_S;$/;"	t	typeref:struct:sample_vi_param_s
+SAMPLE_VO_MODE_E	common/vo.h	/^}SAMPLE_VO_MODE_E;$/;"	t	typeref:enum:sample_vo_mode_e
+SOURCES	Makefile	/^SOURCES =  $(wildcard *.c common\/*.c) $/;"	m
+SOURCES	osal/Makefile	/^SOURCES =  $(wildcard *.c) $/;"	m
+TARGET	Makefile	/^TARGET = dec_bin$/;"	m
+TARGET	osal/Makefile	/^TARGET = osal.a$/;"	m
+UnpackRTPH264	stream.c	/^int UnpackRTPH264( u_char *bufIN, size_t len, decoder_t dec)$/;"	f
+UnpackRTPH265	stream.c	/^int UnpackRTPH265( u_char *bufIN, size_t len, decoder_t dec)$/;"	f
+VDEC_CHN_NUM_16	decoder.h	28;"	d
+VDEC_CHN_NUM_25	decoder.h	27;"	d
+VDEC_CHN_NUM_4	decoder.h	29;"	d
+VO_BKGRD_BLUE	common/common.h	126;"	d
+VO_MODE_16MUX	common/vo.h	/^    VO_MODE_16MUX   = 3,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_1B_5S	common/vo.h	/^    VO_MODE_1B_5S   = 4,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_1B_7S	common/vo.h	/^    VO_MODE_1B_7S   = 5,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_1L_1R	common/vo.h	/^    VO_MODE_1L_1R   = 6,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_1MUX	common/vo.h	/^    VO_MODE_1MUX    = 0,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_25MUX	common/vo.h	/^    VO_MODE_25MUX   = 7,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_36MUX	common/vo.h	/^    VO_MODE_36MUX   = 8,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_49MUX	common/vo.h	/^    VO_MODE_49MUX   = 10,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_4MUX	common/vo.h	/^    VO_MODE_4MUX    = 1,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_4T_4B	common/vo.h	/^    VO_MODE_4T_4B   = 9,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_64MUX	common/vo.h	/^    VO_MODE_64MUX   = 11,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_9MUX	common/vo.h	/^    VO_MODE_9MUX    = 2,$/;"	e	enum:sample_vo_mode_e
+VO_MODE_BUTT	common/vo.h	/^    VO_MODE_BUTT$/;"	e	enum:sample_vo_mode_e
+VPSS_GRP_NUM_TEST	common/common.h	153;"	d
+_720P_HEIGHT	common/common.h	136;"	d
+_720P_WIDTH	common/common.h	135;"	d
+_ALLTASKS_H	alltasks.h	3;"	d
+_DEBUG	hisidec.c	29;"	d	file:
+_DEBUG	hisidec.c	30;"	d	file:
+_DEBUG	main.c	22;"	d	file:
+_DEBUG	osal/msg.c	6;"	d	file:
+_DEBUG	osal/timers.c	8;"	d	file:
+_DECODER_H	decoder.h	2;"	d
+_DEC_BUF_H	dec_buf.h	9;"	d
+_FHW_SYS_H	common/sys.h	2;"	d
+_FHW_VDEC_H	common/vdec.h	2;"	d
+_FHW_VGS_H	common/vgs.h	2;"	d
+_FHW_VO_H	common/vo.h	2;"	d
+_MSG_H	osal/msg.h	3;"	d
+_OSALTYPE_H	osal/osaltype.h	2;"	d
+_OSAL_H	osal/osal.h	2;"	d
+_STREAM_H	stream.h	2;"	d
+_TASKS_H	osal/tasks.h	2;"	d
+_TIMERS_H	osal/timers.h	2;"	d
+__AudioFileT	common/common.h	/^typedef enum __AudioFileT$/;"	g
+__SAMPLE_COMM_H__	common/common.h	2;"	d
+_osalLoop	main.c	/^void *_osalLoop(void  *arg)$/;"	f
+activesize	osal/osaltype.h	/^    int             activesize;$/;"	m	struct:msgBox_st
+activesize	osal/osaltype.h	/^    int         activesize;$/;"	m	struct:timerList_st
+addTask	osal/tasks.c	/^int addTask(taskList_t taskList,pTaskEventHandlerFn fn,int flag)$/;"	f
+addTimer	osal/timers.c	/^int addTimer( timerList_t timerList,int task_id, int event_flag, int timeout )$/;"	f
+beta_offset	decoder.h	/^    int8_t beta_offset;    \/\/\/< beta_offset_div2 * 2$/;"	m	struct:HEVCPPS_st
+buf	decoder.h	/^	dec_buf_t 	buf;$/;"	m	struct:decoder_st
+cabac_init_present_flag	decoder.h	/^    uint8_t cabac_init_present_flag;$/;"	m	struct:HEVCPPS_st
+cache	osal/osaltype.h	/^	msg_t  cache;$/;"	m	struct:msgBox_st
+cache	osal/osaltype.h	/^    timerRec_t  cache;$/;"	m	struct:timerList_st
+cachesize	osal/osaltype.h	/^    int				cachesize;$/;"	m	struct:msgBox_st
+cachesize	osal/osaltype.h	/^    int			cachesize;$/;"	m	struct:timerList_st
+capacity	dec_buf.h	/^	size_t capacity;$/;"	m	struct:dec_buf_st
+cb_qp_offset	decoder.h	/^    int cb_qp_offset;$/;"	m	struct:HEVCPPS_st
+cb_qp_offset_list	decoder.h	/^    int8_t  cb_qp_offset_list[5];$/;"	m	struct:HEVCPPS_st
+check_left_freams	alltasks.c	/^int check_left_freams(int task_id,int events)$/;"	f
+chroma_qp_offset_list_enabled_flag	decoder.h	/^    uint8_t chroma_qp_offset_list_enabled_flag;$/;"	m	struct:HEVCPPS_st
+chroma_qp_offset_list_len_minus1	decoder.h	/^    uint8_t chroma_qp_offset_list_len_minus1;$/;"	m	struct:HEVCPPS_st
+clearTaskEvent	osal/tasks.c	/^int clearTaskEvent( taskList_t taskList,int task_id, int event_flag )$/;"	f
+cmd	decoder.h	/^	int cmd;$/;"	m	struct:rtpPkg_st
+col_idxX	decoder.h	/^    int *col_idxX;$/;"	m	struct:HEVCPPS_st
+column_width	decoder.h	/^    unsigned int *column_width;  \/\/\/< ColumnWidth$/;"	m	struct:HEVCPPS_st
+constrained_intra_pred_flag	decoder.h	/^    uint8_t constrained_intra_pred_flag;$/;"	m	struct:HEVCPPS_st
+cr_qp_offset	decoder.h	/^    int cr_qp_offset;$/;"	m	struct:HEVCPPS_st
+cr_qp_offset_list	decoder.h	/^    int8_t  cr_qp_offset_list[5];$/;"	m	struct:HEVCPPS_st
+create_dec_chns	decoder.c	/^decEnv_t create_dec_chns(void)$/;"	f
+cross_component_prediction_enabled_flag	decoder.h	/^    uint8_t cross_component_prediction_enabled_flag;$/;"	m	struct:HEVCPPS_st
+ctb_addr_rs_to_ts	decoder.h	/^    int *ctb_addr_rs_to_ts; \/\/\/< CtbAddrRSToTS$/;"	m	struct:HEVCPPS_st
+ctb_addr_ts_to_rs	decoder.h	/^    int *ctb_addr_ts_to_rs; \/\/\/< CtbAddrTSToRS$/;"	m	struct:HEVCPPS_st
+ctb_row_to_rs	decoder.h	/^    int *ctb_row_to_rs;$/;"	m	struct:HEVCPPS_st
+cu_qp_delta_enabled_flag	decoder.h	/^    uint8_t cu_qp_delta_enabled_flag;$/;"	m	struct:HEVCPPS_st
+currentTime	osal/timers.c	/^static unsigned long long    currentTime;$/;"	v	file:
+data	decoder.h	/^	u_char data[1600];$/;"	m	struct:rtpPkg_st
+data_abs	decoder.h	15;"	d
+deblocking_filter_control_present_flag	decoder.h	/^    uint8_t deblocking_filter_control_present_flag;$/;"	m	struct:HEVCPPS_st
+deblocking_filter_override_enabled_flag	decoder.h	/^    uint8_t deblocking_filter_override_enabled_flag;$/;"	m	struct:HEVCPPS_st
+debug	hisidec.c	32;"	d	file:
+debug	hisidec.c	34;"	d	file:
+debug	main.c	25;"	d	file:
+debug	main.c	27;"	d	file:
+debug	osal/msg.c	11;"	d	file:
+debug	osal/msg.c	9;"	d	file:
+debug	osal/timers.c	11;"	d	file:
+debug	osal/timers.c	13;"	d	file:
+decs	decoder.h	/^	decoder_t decs;$/;"	m	struct:decEnv_st
+decEnv	main.c	/^decEnv_t  decEnv;$/;"	v
+decEnv_st	decoder.h	/^struct decEnv_st{$/;"	s
+decEnv_t	decoder.h	/^typedef struct decEnv_st *decEnv_t; $/;"	t	typeref:struct:decEnv_st
+decLock	decoder.h	/^	pthread_mutex_t decLock;$/;"	m	struct:decoder_st
+decStream	decoder.h	/^	VDEC_STREAM_S decStream;$/;"	m	struct:decoder_st
+dec_buf_append	dec_buf.c	/^int dec_buf_append(dec_buf_t b, const void* src, size_t len)$/;"	f
+dec_buf_consume	dec_buf.c	/^int dec_buf_consume(dec_buf_t b, size_t use)$/;"	f
+dec_buf_extend	dec_buf.c	/^int dec_buf_extend(dec_buf_t b, size_t grow){$/;"	f
+dec_buf_free	dec_buf.c	/^void dec_buf_free(dec_buf_t b){$/;"	f
+dec_buf_init	dec_buf.c	/^int dec_buf_init(dec_buf_t b)$/;"	f
+dec_buf_new	dec_buf.c	/^dec_buf_t dec_buf_new(size_t size)$/;"	f
+dec_buf_st	dec_buf.h	/^typedef struct dec_buf_st{$/;"	s
+dec_buf_t	dec_buf.h	/^}*dec_buf_t;$/;"	t	typeref:struct:dec_buf_st
+dec_reset_handler	alltasks.c	/^int dec_reset_handler(int task_id,int events)$/;"	f
+dec_type	main.c	/^int dec_type=0;\/\/0--h264 1-- h265$/;"	v
+decode_h264	hisidec.c	/^FY_S32 decode_h264(int dec_type)$/;"	f
+decoder_st	decoder.h	/^struct decoder_st{$/;"	s
+decoder_t	decoder.h	/^typedef struct decoder_st *decoder_t;$/;"	t	typeref:struct:decoder_st
+dependent_slice_segments_enabled_flag	decoder.h	/^    uint8_t dependent_slice_segments_enabled_flag;$/;"	m	struct:HEVCPPS_st
+diff_cu_chroma_qp_offset_depth	decoder.h	/^    uint8_t diff_cu_chroma_qp_offset_depth;$/;"	m	struct:HEVCPPS_st
+diff_cu_qp_delta_depth	decoder.h	/^    int diff_cu_qp_delta_depth;$/;"	m	struct:HEVCPPS_st
+disable_dbf	decoder.h	/^    uint8_t disable_dbf;$/;"	m	struct:HEVCPPS_st
+do_decode	stream.c	/^int do_decode(decoder_t dec,int chn,int rtpType)$/;"	f
+entropy_coding_sync_enabled_flag	decoder.h	/^    uint8_t entropy_coding_sync_enabled_flag;$/;"	m	struct:HEVCPPS_st
+err	decoder.h	/^	int err;$/;"	m	struct:rtspChnStatus_st
+err	decoder.h	/^	unsigned err:1;  				\/\/表示当前画面为无视频状态，当有视频流来的时候，应该清除该标志$/;"	m	struct:decoder_st
+err	osal/osaltype.h	/^	char err[32];\/\/record the latest err$/;"	m	struct:osalEnv_st
+eventFlag	osal/osaltype.h	/^  int 	eventFlag;$/;"	m	struct:osalTask_st
+eventFlag	osal/osaltype.h	/^  int 	eventFlag;$/;"	m	struct:timerRec_st
+fileCnt	stream.c	/^	int fileCnt=0;$/;"	v
+findTimer	osal/timers.c	/^timerRec_t findTimer( timerList_t timerList,int task_id, int event_flag )$/;"	f
+flag_base	osal/osaltype.h	22;"	d
+fp	main.c	/^	FILE *fp;$/;"	v
+free_dec_chns	decoder.c	/^void free_dec_chns(decEnv_t decEnv)$/;"	f
+fyAudioCodecType	common/common.h	/^typedef enum fyAudioCodecType$/;"	g
+fysample_MEMBUF_S	common/common.h	/^typedef struct fysample_MEMBUF_S$/;"	s
+g_s32VBSource	common/vdec.c	/^FY_S32 g_s32VBSource = 0;$/;"	v
+getCurentTime	osal/timers.c	/^static void getCurentTime(void)$/;"	f	file:
+getTimeoutEx	osal/timers.c	/^int getTimeoutEx(timerList_t timerList, int task_id, int event_id )$/;"	f
+getTimerActive	osal/timers.c	/^int getTimerActive( timerList_t timerList )$/;"	f
+getTimerCache	osal/timers.c	/^int getTimerCache( timerList_t timerList )$/;"	f
+got_sig_term	main.c	/^static int got_sig_term = 0;$/;"	v	file:
+hBlock	common/common.h	/^    VB_BLK  hBlock;$/;"	m	struct:fysample_MEMBUF_S
+hPool	common/common.h	/^    VB_POOL hPool;$/;"	m	struct:fysample_MEMBUF_S
+handle	osal/osaltype.h	/^  pTaskEventHandlerFn handle;$/;"	m	struct:osalTask_st
+head	dec_buf.h	/^	u_char *head, *tail;$/;"	m	struct:dec_buf_st
+head	osal/osaltype.h	/^    msg_t  head;$/;"	m	struct:msgBox_st
+head	osal/osaltype.h	/^    osalTask_t  head;$/;"	m	struct:taskList_st
+head	osal/osaltype.h	/^    timerRec_t  head;$/;"	m	struct:timerList_st
+heap	dec_buf.h	/^	u_char *heap;$/;"	m	struct:dec_buf_st
+hevcPPS	decoder.h	/^	HEVCPPS_t hevcPPS;$/;"	m	struct:decoder_st
+id	decoder.h	/^	int 	id;$/;"	m	struct:decoder_st
+id	decoder.h	/^	int id;$/;"	m	struct:rtspChnStatus_st
+id	osal/osaltype.h	/^  int   id; $/;"	m	struct:msg_st
+id	osal/osaltype.h	/^  int   id; $/;"	m	struct:osalTask_st
+id	osal/osaltype.h	/^  int   id; $/;"	m	struct:timerRec_st
+init_accepted_conn	main.c	/^int init_accepted_conn(conn_t c,void *arg)$/;"	f
+last_seqc	decoder.h	/^	unsigned short last_seqc;$/;"	m	struct:decoder_st
+len	decoder.h	/^	int len;$/;"	m	struct:rtpPkg_st
+lists_modification_present_flag	decoder.h	/^    uint8_t lists_modification_present_flag;$/;"	m	struct:HEVCPPS_st
+lock	osal/osaltype.h	/^	pthread_mutex_t lock;$/;"	m	struct:osalEnv_st
+log2_max_transform_skip_block_size	decoder.h	/^    uint8_t log2_max_transform_skip_block_size;$/;"	m	struct:HEVCPPS_st
+log2_parallel_merge_level	decoder.h	/^    int log2_parallel_merge_level; \/\/\/< log2_parallel_merge_level_minus2 + 2$/;"	m	struct:HEVCPPS_st
+log2_sao_offset_scale_chroma	decoder.h	/^    uint8_t log2_sao_offset_scale_chroma;$/;"	m	struct:HEVCPPS_st
+log2_sao_offset_scale_luma	decoder.h	/^    uint8_t log2_sao_offset_scale_luma;$/;"	m	struct:HEVCPPS_st
+loop_filter_across_tiles_enabled_flag	decoder.h	/^    uint8_t loop_filter_across_tiles_enabled_flag;$/;"	m	struct:HEVCPPS_st
+m_inferScalingListFlag	decoder.h	/^    uint8_t m_inferScalingListFlag;$/;"	m	struct:HEVCPPS_st
+m_scalingListRefLayerId	decoder.h	/^    int m_scalingListRefLayerId; $/;"	m	struct:HEVCPPS_st
+magic	decoder.h	/^	char magic[8];$/;"	m	struct:rtpPkg_st
+main	main.c	/^int main()$/;"	f
+make_seqc_right	stream.c	/^int make_seqc_right(u_char *bufIN, size_t len, int chn ,decoder_t dec)$/;"	f
+min_tb_addr_zs	decoder.h	/^    int *min_tb_addr_zs;    \/\/\/< MinTbAddrZS$/;"	m	struct:HEVCPPS_st
+min_tb_addr_zs_tab	decoder.h	/^    int *min_tb_addr_zs_tab;\/\/\/< MinTbAddrZS$/;"	m	struct:HEVCPPS_st
+msg	osal/osaltype.h	/^  char  msg[64];$/;"	m	struct:msg_st
+msgBox	osal/osaltype.h	/^    msgBox_t	msgBox;$/;"	m	struct:osalEnv_st
+msgBoxInit	osal/msg.c	/^msgBox_t msgBoxInit(void) $/;"	f
+msgBox_st	osal/osaltype.h	/^struct msgBox_st {$/;"	s
+msgBox_t	osal/osaltype.h	/^typedef struct msgBox_st  *msgBox_t;$/;"	t	typeref:struct:msgBox_st
+msg_st	osal/osaltype.h	/^struct msg_st$/;"	s
+msg_t	osal/osaltype.h	/^typedef struct msg_st *msg_t;$/;"	t	typeref:struct:msg_st
+next	osal/osaltype.h	/^  msg_t next;$/;"	m	struct:msg_st
+next	osal/osaltype.h	/^  osalTask_t next;$/;"	m	struct:osalTask_st
+next	osal/osaltype.h	/^  timerRec_t next;$/;"	m	struct:timerRec_st
+num_extra_slice_header_bits	decoder.h	/^    int num_extra_slice_header_bits;$/;"	m	struct:HEVCPPS_st
+num_ref_idx_l0_default_active	decoder.h	/^    int num_ref_idx_l0_default_active; \/\/\/< num_ref_idx_l0_default_active_minus1 + 1$/;"	m	struct:HEVCPPS_st
+num_ref_idx_l1_default_active	decoder.h	/^    int num_ref_idx_l1_default_active; \/\/\/< num_ref_idx_l1_default_active_minus1 + 1$/;"	m	struct:HEVCPPS_st
+num_tile_columns	decoder.h	/^    int num_tile_columns;   \/\/\/< num_tile_columns_minus1 + 1$/;"	m	struct:HEVCPPS_st
+num_tile_rows	decoder.h	/^    int num_tile_rows;      \/\/\/< num_tile_rows_minus1 + 1$/;"	m	struct:HEVCPPS_st
+on_sig_term	main.c	/^static void on_sig_term(int sig)$/;"	f	file:
+osalAddTask	osal/osal.c	/^int osalAddTask(pTaskEventHandlerFn fn,int flag)$/;"	f
+osalClearTaskEvent	osal/osal.c	/^ int osalClearTaskEvent(int task_id,int eventFlag)$/;"	f
+osalEnv	osal/osal.c	/^static osalEnv_t osalEnv;$/;"	v	file:
+osalEnv_st	osal/osaltype.h	/^struct osalEnv_st {$/;"	s
+osalEnv_t	osal/osaltype.h	/^typedef struct osalEnv_st  * osalEnv_t;$/;"	t	typeref:struct:osalEnv_st
+osalErr	osal/osal.c	/^int osalErr(const char *err)$/;"	f
+osalFree	osal/osal.c	/^int osalFree(void)$/;"	f
+osalGetTimeoutEx	osal/osal.c	/^int osalGetTimeoutEx(int task_id, int event_id )$/;"	f
+osalGetTimerActive	osal/osal.c	/^int osalGetTimerActive()$/;"	f
+osalGetTimerCache	osal/osal.c	/^int osalGetTimerCache()$/;"	f
+osalInitEnv	osal/osal.c	/^void osalInitEnv(void)$/;"	f
+osalPullMsg	osal/osal.c	/^msg_t osalPullMsg(int task_id)$/;"	f
+osalPushMsg	osal/osal.c	/^int osalPushMsg(int task_id, char *msg)$/;"	f
+osalRunSystem	osal/osal.c	/^int osalRunSystem()$/;"	f
+osalStartTimerEx	osal/osal.c	/^int osalStartTimerEx(int taskID, int event_id, int timeout_value )$/;"	f
+osalTask_st	osal/osaltype.h	/^struct osalTask_st$/;"	s
+osalTask_t	osal/osaltype.h	/^typedef struct osalTask_st *osalTask_t;$/;"	t	typeref:struct:osalTask_st
+osalTicksUpdate	osal/osal.c	/^int osalTicksUpdate()$/;"	f
+osal_printf	alltasks.c	/^int osal_printf(int task_id,int events)$/;"	f
+output_flag_present_flag	decoder.h	/^    uint8_t output_flag_present_flag;$/;"	m	struct:HEVCPPS_st
+pFuck	stream.c	/^static int pFuck=0;$/;"	v	file:
+pMark	stream.c	/^static int pMark=0;$/;"	v	file:
+pTaskEventHandlerFn	osal/osaltype.h	/^typedef int (*pTaskEventHandlerFn)(int id,int event );$/;"	t
+pVirAddr	common/common.h	/^    FY_U8   *pVirAddr;$/;"	m	struct:fysample_MEMBUF_S
+parase_pps	stream.c	/^int parase_pps(u_char *buf,int len,HEVCPPS_t hevcPPS)$/;"	f
+pic_init_qp_minus26	decoder.h	/^    int pic_init_qp_minus26;$/;"	m	struct:HEVCPPS_st
+pic_slice_level_chroma_qp_offsets_present_flag	decoder.h	/^    uint8_t pic_slice_level_chroma_qp_offsets_present_flag;$/;"	m	struct:HEVCPPS_st
+pkgMark	stream.c	/^static int pkgMark=0;$/;"	v	file:
+pkgProcess	rtpPkgProcess.c	/^void pkgProcess(u_char *rtpPkg,int dec_type)$/;"	f
+prev	osal/osaltype.h	/^  msg_t prev;$/;"	m	struct:msg_st
+prev	osal/osaltype.h	/^  timerRec_t prev;$/;"	m	struct:timerRec_st
+process_rtp	stream.c	/^int process_rtp(u_char *bufIN, size_t inLen, int chn,decoder_t dec,int dec_type)$/;"	f
+pullMsg	osal/msg.c	/^msg_t pullMsg(msgBox_t msgBox,int task_id) $/;"	f
+pushMsg	osal/msg.c	/^int pushMsg(msgBox_t msgBox,taskList_t taskList,int task_id, char *msg) $/;"	f
+refused	decoder.h	/^	unsigned refused:1;				\/\/表示此时不接受视频$/;"	m	struct:decoder_st
+row_height	decoder.h	/^    unsigned int *row_height;    \/\/\/< RowHeight$/;"	m	struct:HEVCPPS_st
+rtpPkg_st	decoder.h	/^struct rtpPkg_st$/;"	s
+rtpPkg_t	decoder.h	/^typedef struct rtpPkg_st  *rtpPkg_t;$/;"	t	typeref:struct:rtpPkg_st
+rtspChnStatus_st	decoder.h	/^struct rtspChnStatus_st{ \/\/和RTSPclient通信的接口，当不是RTSP数据包的时候就会出现这个包$/;"	s
+rtspChnStatus_t	decoder.h	/^typedef struct rtspChnStatus_st *rtspChnStatus_t;$/;"	t	typeref:struct:rtspChnStatus_st
+s32Mdev	common/common.h	/^    FY_S32  s32Mdev;$/;"	m	struct:fysample_MEMBUF_S
+s32ViChnCnt	common/common.h	/^    FY_S32 s32ViChnCnt;        \/\/ Vi Chn Total Count$/;"	m	struct:sample_vi_param_s
+s32ViChnInterval	common/common.h	/^    FY_S32 s32ViChnInterval;   \/\/ VI Chn Interval$/;"	m	struct:sample_vi_param_s
+s32ViDevCnt	common/common.h	/^    FY_S32 s32ViDevCnt;        \/\/ VI Dev Total Count$/;"	m	struct:sample_vi_param_s
+s32ViDevInterval	common/common.h	/^    FY_S32 s32ViDevInterval;   \/\/ Vi Dev Interval$/;"	m	struct:sample_vi_param_s
+sample_rgn_change_type_e	common/common.h	/^typedef enum sample_rgn_change_type_e$/;"	g
+sample_vi_param_s	common/common.h	/^typedef struct sample_vi_param_s$/;"	s
+sample_vo_mode_e	common/vo.h	/^typedef enum sample_vo_mode_e$/;"	g
+scaling_list_data_present_flag	decoder.h	/^    uint8_t scaling_list_data_present_flag;$/;"	m	struct:HEVCPPS_st
+seq_loop_filter_across_slices_enabled_flag	decoder.h	/^    uint8_t seq_loop_filter_across_slices_enabled_flag;$/;"	m	struct:HEVCPPS_st
+server_read_handle	main.c	/^int server_read_handle(event_t ev)$/;"	f
+server_write_handle	main.c	/^int server_write_handle(event_t ev)$/;"	f
+setTaskEvent	osal/tasks.c	/^int setTaskEvent( taskList_t taskList,int task_id, int event_flag )$/;"	f
+sign_data_hiding_flag	decoder.h	/^    uint8_t sign_data_hiding_flag;$/;"	m	struct:HEVCPPS_st
+size	dec_buf.h	/^	size_t size;$/;"	m	struct:dec_buf_st
+slice_header_extension_present_flag	decoder.h	/^    uint8_t slice_header_extension_present_flag;$/;"	m	struct:HEVCPPS_st
+sps_id	decoder.h	/^    unsigned int sps_id; \/\/\/< seq_parameter_set_id$/;"	m	struct:HEVCPPS_st
+stVdecChnAttr	common/vdec.c	/^static VDEC_CHN_ATTR_S stVdecChnAttr[CHNS];$/;"	v	file:
+startRcv	decoder.h	/^	unsigned startRcv:1;			\/\/表示开始接收码流$/;"	m	struct:decoder_st
+startTimerEx	osal/timers.c	/^int startTimerEx( timerList_t timerList,int taskID, int event_id, int timeout_value )$/;"	f
+stopTimerEx	osal/timers.c	/^int stopTimerEx( timerList_t timerList,int task_id, int event_id )$/;"	f
+subwin	decoder.h	/^	int subwin;$/;"	m	struct:rtspChnStatus_st
+sys_exit	common/sys.c	/^FY_VOID sys_exit(void)$/;"	f
+sys_init	common/sys.c	/^FY_S32 sys_init(VB_CONF_S *pstVbConf)$/;"	f
+tail	dec_buf.h	/^	u_char *head, *tail;$/;"	m	struct:dec_buf_st
+tail	osal/osaltype.h	/^	msg_t  tail;$/;"	m	struct:msgBox_st
+tail	osal/osaltype.h	/^    timerRec_t  tail;$/;"	m	struct:timerList_st
+taskList	osal/osaltype.h	/^	taskList_t  taskList;$/;"	m	struct:osalEnv_st
+taskListInit	osal/tasks.c	/^taskList_t taskListInit( void )$/;"	f
+taskList_st	osal/osaltype.h	/^struct taskList_st {$/;"	s
+taskList_t	osal/osaltype.h	/^typedef struct taskList_st  *taskList_t;$/;"	t	typeref:struct:taskList_st
+taskNum	osal/osaltype.h	/^    int         taskNum;$/;"	m	struct:taskList_st
+tc_offset	decoder.h	/^    int8_t tc_offset;      \/\/\/< tc_offset_div2 * 2$/;"	m	struct:HEVCPPS_st
+tile_id	decoder.h	/^    int *tile_id;           \/\/\/< TileId$/;"	m	struct:HEVCPPS_st
+tile_pos_rs	decoder.h	/^    int *tile_pos_rs;       \/\/\/< TilePosRS$/;"	m	struct:HEVCPPS_st
+tile_width	decoder.h	/^    int *tile_width;           \/\/\/< TileWidth$/;"	m	struct:HEVCPPS_st
+tiles_enabled_flag	decoder.h	/^    uint8_t tiles_enabled_flag;$/;"	m	struct:HEVCPPS_st
+time40ms	decoder.h	/^	unsigned long long time40ms;$/;"	m	struct:decoder_st
+timeout	osal/osaltype.h	/^  unsigned long long   timeout; \/\/ms  $/;"	m	struct:timerRec_st
+timerList	osal/osaltype.h	/^    timerList_t  timerList;$/;"	m	struct:osalEnv_st
+timerListInit	osal/timers.c	/^timerList_t timerListInit(void) $/;"	f
+timerList_st	osal/osaltype.h	/^struct timerList_st {$/;"	s
+timerList_t	osal/osaltype.h	/^typedef struct timerList_st  *timerList_t;$/;"	t	typeref:struct:timerList_st
+timerRec_st	osal/osaltype.h	/^struct timerRec_st$/;"	s
+timerRec_t	osal/osaltype.h	/^typedef struct timerRec_st *timerRec_t;$/;"	t	typeref:struct:timerRec_st
+timerUpdate	osal/timers.c	/^int timerUpdate( timerList_t timerList,taskList_t taskList )$/;"	f
+timestamp	decoder.h	/^	unsigned int timestamp;$/;"	m	struct:decoder_st
+transform_skip_enabled_flag	decoder.h	/^    uint8_t transform_skip_enabled_flag;$/;"	m	struct:HEVCPPS_st
+transquant_bypass_enable_flag	decoder.h	/^    uint8_t transquant_bypass_enable_flag;$/;"	m	struct:HEVCPPS_st
+u32PhyAddr	common/common.h	/^    FY_U32  u32PhyAddr;$/;"	m	struct:fysample_MEMBUF_S
+u32PoolId	common/common.h	/^    FY_U32  u32PoolId;$/;"	m	struct:fysample_MEMBUF_S
+uniform_spacing_flag	decoder.h	/^    uint8_t uniform_spacing_flag;$/;"	m	struct:HEVCPPS_st
+update	decoder.h	/^	int update; \/\/表示该通道切换了视频源，可以进行reset操作$/;"	m	struct:rtspChnStatus_st
+vdec_bind_vgs	common/vdec.c	/^FY_S32 vdec_bind_vgs(VDEC_CHN VdChn, VGS_CHN VgsChn)$/;"	f
+vdec_chnAttr	common/vdec.c	/^FY_VOID	vdec_chnAttr(FY_S32 s32ChnNum,$/;"	f
+vdec_handle_sig	hisidec.c	/^FY_VOID vdec_handle_sig(FY_S32 signo)$/;"	f
+vdec_init_modCommVb	common/vdec.c	/^FY_S32	vdec_init_modCommVb(VB_CONF_S *pstModVbConf)$/;"	f
+vdec_load_userPic	common/vdec.c	/^FY_S32 vdec_load_userPic(char* fname, FY_U32 w,FY_U32 h, PIXEL_FORMAT_E format,VIDEO_FRAME_INFO_S* pUserFrame)$/;"	f
+vdec_mod_commPoolConf_ext	common/vdec.c	/^ FY_VOID	vdec_mod_commPoolConf_ext(VB_CONF_S *pstModVbConf, PAYLOAD_TYPE_E *enTypes, SIZE_S *pstSize, FY_S32 s32ChnNum,FY_S32  fbCnt)$/;"	f
+vdec_start	common/vdec.c	/^FY_S32 vdec_start(FY_S32 s32ChnNum, VDEC_CHN_ATTR_S *pstAttr, FY_U32 u32BlkCnt)$/;"	f
+vdec_start_mux_voChn_ext	common/vdec.c	/^ int vdec_start_mux_voChn_ext(FY_U32	s32ChnNum, int enMode,  int video_width, int video_height, PAYLOAD_TYPE_E pt_types[],int fb_cnt, int bind,VO_LAYER VoLayer,VO_CHN startVoChn)$/;"	f
+vdec_stop	common/vdec.c	/^FY_S32 vdec_stop(FY_S32 s32ChnNum)$/;"	f
+vdec_unbind_vgs	common/vdec.c	/^FY_S32 vdec_unbind_vgs(VDEC_CHN VdChn, VGS_CHN VgsChn)$/;"	f
+vdec_vgs_bind_vo_layer	common/vdec.c	/^FY_S32 vdec_vgs_bind_vo_layer(FY_S32 s32ChnNum, VO_LAYER VoLayer,VO_CHN startVoChn)$/;"	f
+vdec_vgs_deinit	common/vgs.c	/^FY_S32 vdec_vgs_deinit(FY_S32 s32ChnNum)$/;"	f
+vdec_vgs_init_layer	common/vgs.c	/^FY_S32 vdec_vgs_init_layer(FY_S32 s32ChnNum, int enMode,VO_LAYER VoLayer)$/;"	f
+vdec_vgs_reinit_layer	common/vgs.c	/^FY_S32 vdec_vgs_reinit_layer(FY_S32 s32ChnNum, int enMode,VO_LAYER VoLayer)$/;"	f
+vdec_vgs_unbind_vo_layer	common/vdec.c	/^FY_S32 vdec_vgs_unbind_vo_layer(FY_S32 s32ChnNum, VO_LAYER VoLayer,VO_CHN startVoChn)$/;"	f
+vdec_vo_deinit_layer	common/vdec.c	/^FY_S32 vdec_vo_deinit_layer(int enMode, VO_LAYER VoLayer,VO_CHN startVoChn, FY_S32 s32Chn)$/;"	f
+vdec_vo_init_layer	common/vdec.c	/^ FY_S32 vdec_vo_init_layer(int enMode, VO_LAYER VoLayer, VO_CHN startVoChn, FY_S32 s32Chn)$/;"	f
+vgs_bind_vo	common/vgs.c	/^FY_S32 vgs_bind_vo(VGS_CHN VgsChn,VO_LAYER VoLayer, VO_CHN VoChn)$/;"	f
+vgs_unbind_vo	common/vgs.c	/^FY_S32 vgs_unbind_vo(VGS_CHN VgsChn,VO_LAYER VoLayer, VO_CHN VoChn)$/;"	f
+vo_deinit	common/vo.c	/^FY_S32 vo_deinit(FY_BOOL bIsHD)$/;"	f
+vo_getWH	common/vo.c	/^FY_S32 vo_getWH(VO_INTF_SYNC_E enIntfSync, FY_U32 *pu32W,FY_U32 *pu32H, FY_U32 *pu32Frm)$/;"	f
+vo_get_chnRect	common/vo.c	/^FY_S32 vo_get_chnRect(VO_CHN voChn, SAMPLE_VO_MODE_E enMode, SIZE_S *pstSize, RECT_S* pstRect)$/;"	f
+vo_init	common/vo.c	/^FY_S32 vo_init(FY_BOOL bIsHD, VO_INTF_SYNC_E enIntf)$/;"	f
+vo_start_chnOne	common/vo.c	/^FY_S32 vo_start_chnOne(VO_LAYER VoLayer, VO_CHN voChn, SAMPLE_VO_MODE_E enMode)$/;"	f
+vo_start_singleLayer	common/vo.c	/^FY_S32 vo_start_singleLayer(VO_LAYER VoLayer,const VO_VIDEO_LAYER_ATTR_S *pstLayerAttr, FY_BOOL isSingle)$/;"	f
+vo_stop_chnOne	common/vo.c	/^FY_S32 vo_stop_chnOne(VO_LAYER VoLayer, VO_CHN voChn, SAMPLE_VO_MODE_E enMode)$/;"	f
+waitIfream	decoder.h	/^	unsigned waitIfream:1;$/;"	m	struct:decoder_st
+weighted_bipred_flag	decoder.h	/^    uint8_t weighted_bipred_flag;$/;"	m	struct:HEVCPPS_st
+weighted_pred_flag	decoder.h	/^    uint8_t weighted_pred_flag;$/;"	m	struct:HEVCPPS_st
