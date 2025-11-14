@@ -12,6 +12,9 @@
 #include "nvdec.h"
 
 
+
+#define DEVICE 0
+
 using namespace std;
 
 decEnv_t create_dec_chns(void)
@@ -20,6 +23,7 @@ decEnv_t create_dec_chns(void)
 	decEnv_t decEnv = (decEnv_t)calloc(1,sizeof(struct decEnv_st));
 	decEnv->decs= (decoder_t)calloc(CHNS,sizeof(struct decoder_st));
 
+	cudaSetDevice(DEVICE);
 
 
 	for(i=0;i<CHNS;i++)
@@ -48,6 +52,7 @@ decEnv_t create_dec_chns(void)
 		sprintf(decEnv->decs[i].ctx.RendererName,"renderer%d",i);
 
 		initDecoder(decEnv->decs[i].ctx);
+		initCuda(decEnv->decs[i].ctx.yoloCuda);
 		
 	}
 	return decEnv;
@@ -57,6 +62,7 @@ void free_dec_chns(decEnv_t decEnv)
 {
 	int i;
 	for(i=0;i<CHNS;i++){
+		releaseCuda(decEnv->decs[i].ctx.yoloCuda);
 		freeDecoder(decEnv->decs[i].ctx);
 		dec_buf_free(decEnv->decs[i].buf);
 		free(decEnv->decs[i].hevcPPS);

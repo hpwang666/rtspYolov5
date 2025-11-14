@@ -30,7 +30,7 @@ typedef enum{PKG_BAD=-1,PKG_MIN=0,PKG_TXT=1} PKG_TYPE;
 #define  VDEC_CHN_NUM_2 (2)
 #define  VDEC_CHN_NUM_1 (1)
 
-#define CHNS (VDEC_CHN_NUM_2)
+#define CHNS (VDEC_CHN_NUM_1)
 
 
 extern decEnv_t  decEnv;

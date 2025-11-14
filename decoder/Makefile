@@ -9,25 +9,36 @@ CLASS_DIR 	:= $(TOP_DIR)/samples/common/classes
 
 
 
-
-INCLUDES= $(wildcard *.h)
 CFLAGS :=   -Wall     
-CFLAGS +=  -I./      -I./osal -I../connet -I"$(TOP_DIR)/include" -I"$(TOP_DIR)/include/libjpeg-8b"  -I"$(TARGET_ROOTFS)/usr/include/libdrm"
+CFLAGS +=  -I./  -I/usr/local/cuda/include    -I./osal -I../connet -I"$(TOP_DIR)/include" -I"$(TOP_DIR)/include/libjpeg-8b"  -I"$(TARGET_ROOTFS)/usr/include/libdrm"
 CXXFLAGS:=$(CFLAGS) -std=c++11
 CCFLAGS:=$(CFLAGS)
 
-LIBPATH = -L./lib -L/usr/lib/aarch64-linux-gnu/tegra/
+# CUDA code generation flags
+GENCODE_SM53 := -gencode arch=compute_53,code=sm_53
+GENCODE_SM62 := -gencode arch=compute_62,code=sm_62
+GENCODE_SM72 := -gencode arch=compute_72,code=sm_72
+GENCODE_SM_PTX := -gencode arch=compute_72,code=compute_72
+GENCODE_FLAGS := -I./ -I/usr/local/cuda/include $(GENCODE_SM53) $(GENCODE_SM62) $(GENCODE_SM72) $(GENCODE_SM_PTX)
+
+
+
+LIBPATH = -L/usr/lib/aarch64-linux-gnu/tegra/ -L/usr/local/cuda/lib64 
 LIBS := -lpthread -lv4l2 -lEGL -lGLESv2 -lX11  -lnvjpeg\
+		 $(shell pkg-config --libs opencv4)  -lnvinfer_plugin -lnvinfer -lcudart  -lcublas -lcusolver\
 	-lnvbuf_utils   -ldrm  ./osal/osal.a ../connet/connet.a
 
 
-CLASS_CPP:=	$(wildcard $(CLASS_DIR)/*.cpp)
+SOURCES_CU =  $(wildcard *.cu) 
+OBJFILES_CUO = $(SOURCES_CU:%.cu=obj/%.cuo) 
 
+
+CLASS_CPP:=	$(wildcard $(CLASS_DIR)/*.cpp)
 CLASS_OBJS := $(CLASS_CPP:.cpp=.o) 
 
 ##### End of variables to change
 SOURCES =  $(wildcard *.c) 
-OBJFILES = $(SOURCES:%.c=obj/%.o) $(CLASS_OBJS)
+OBJFILES = $(SOURCES:%.c=obj/%.o) $(CLASS_OBJS) $(OBJFILES_CUO)
 
 .PHONY :clean install prepare all
 TARGET = dec_bin
@@ -42,7 +53,8 @@ all : prepare $(TARGET)
 obj/%.o:%.c 
 	$(COMPILE_CXX)
 	
-
+obj/%.cuo:%.cu 
+	/usr/local/cuda/bin/nvcc  $(GENCODE_FLAGS)  -c -o $@ $<
 
 dec_bin:$(OBJFILES) 
 	$(LINK_CXX)  

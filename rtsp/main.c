@@ -202,8 +202,8 @@ int main()
 #if 1
 	rtsp[0] = init_rtsp_clients(list,"192.168.1.44",554,"admin","@Fhjt0717","/h265/ch1/main/av_stream");	
 	rtsp[0]->chn = 0;
-	 rtsp[1] = init_rtsp_clients(list,"192.168.1.44",554,"admin","@Fhjt0717","/h265/ch1/main/av_stream");	
-	 rtsp[1]->chn = 1;
+	//  rtsp[1] = init_rtsp_clients(list,"192.168.1.44",554,"admin","@Fhjt0717","/h265/ch1/main/av_stream");	
+	//  rtsp[1]->chn = 1;
 
 	// rtsp[2] = init_rtsp_clients(list,"192.168.1.44",554,"admin","@Fhjt0717","/h265/ch1/main/av_stream");	
 	// rtsp[2]->chn = 2;

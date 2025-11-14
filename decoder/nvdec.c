@@ -23,8 +23,11 @@
 
 
 #include "nvbuf_utils.h"
+#include "NvUtils.h"
 #include "NvApplicationProfiler.h"
 #include "renderer.h"
+#include "yuv2rgb.cuh"
+
 
 
 #undef  _DEBUG
@@ -91,7 +94,7 @@ void set_defaults(context_t * ctx,int x,int y,int width,int height)
     ctx->window_width = width;
     ctx->window_x = x;
     ctx->window_y = y;
-    ctx->out_pixfmt = 1;
+    ctx->out_pixfmt = 7;
     ctx->fps = 25;
     ctx->output_plane_mem_type = V4L2_MEMORY_MMAP;
     ctx->capture_plane_mem_type = V4L2_MEMORY_DMABUF;
@@ -605,6 +608,8 @@ static void *dec_capture_loop_fcn(void *arg)
     NvVideoDecoder *dec = ctx->dec;
     struct v4l2_event ev;
     int ret;
+    int writeFile=0;
+    unsigned char tempCap[1920*1080*3];
 
     cout << "Starting decoder capture loop thread" << endl;
     /* Need to wait for the first Resolution change event, so that
@@ -705,6 +710,75 @@ static void *dec_capture_loop_fcn(void *arg)
                   v4l2_buf.timestamp.tv_sec << "s" << v4l2_buf.timestamp.tv_usec << "us]" << endl;
             }
 
+
+             NvBufferRect src_rect, dest_rect;
+                src_rect.top = 0;
+                src_rect.left = 0;
+                src_rect.width = ctx->display_width;
+                src_rect.height = ctx->display_height;
+                dest_rect.top = 0;
+                dest_rect.left = 0;
+                dest_rect.width = ctx->display_width;
+                dest_rect.height = ctx->display_height;
+
+                NvBufferTransformParams transform_params;
+                memset(&transform_params,0,sizeof(transform_params));
+                /* Indicates which of the transform parameters are valid. */
+                transform_params.transform_flag = NVBUFFER_TRANSFORM_FILTER;
+                transform_params.transform_flip = NvBufferTransform_None;
+                transform_params.transform_filter = NvBufferTransform_Filter_Nearest;
+                transform_params.src_rect = src_rect;
+                transform_params.dst_rect = dest_rect;
+
+                if(ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+                    dec_buffer->planes[0].fd = ctx->dmabuff_fd[v4l2_buf.index];
+                /* Perform Blocklinear to PitchLinear conversion. */
+                ret = NvBufferTransform(dec_buffer->planes[0].fd, ctx->dst_dma_fd, &transform_params);
+                if (ret == -1)
+                {
+                    cerr << "Transform failed" << endl;
+                    break;
+                }
+
+                /* Write raw video frame to file. */
+                if (true)
+                {
+                    /* Dumping one plane for YUYV and
+                     * two planes for NV12, NV16, NV24 and
+                     * three planes for I420, I422, I444
+                     */
+                    ret = copy_dmabuf(ctx->dst_dma_fd, 0,  tempCap);
+                    printf("ret=%d\r\n",ret);
+
+                    // dump_dmabuf(ctx->dst_dma_fd, 0, ctx->out_file);
+                    // if (ctx->out_pixfmt != 7)
+                    // {
+                    //     dump_dmabuf(ctx->dst_dma_fd, 1, ctx->out_file);
+                    // }
+                    // if (ctx->out_pixfmt == 2 || ctx->out_pixfmt == 5 || ctx->out_pixfmt == 6)
+                    // {
+                    //     dump_dmabuf(ctx->dst_dma_fd, 2, ctx->out_file);
+                    // }
+                   
+                }
+
+
+            printf("capture len :%d \r\n",dec_buffer->planes[0].bytesused);
+            gpuConvertYUYVtoRGB ((unsigned char *)tempCap, ctx->yoloCuda.rgb_out_buffer, 1920, 1080);
+            if(writeFile==10){
+                char str[128];
+                printf("capture len :%d \r\n",dec_buffer->planes[0].length);
+                FILE *fp= fopen("aa.raw","wb");
+                sprintf (str, "P6\n%u %u\n255\n", 1920, 1080);
+                fwrite(str,1,strlen(str),fp);
+                fwrite(ctx->yoloCuda.rgb_out_buffer,1,1920*1080*3,fp);
+                //sleep(1);
+                fclose(fp);
+            }
+            writeFile++;
+            // doInference(*ctx->yoloCuda.context, ctx->yoloCuda.stream, ctx->yoloCuda.buffers,  ctx->yoloCuda.rgb_out_buffer,  ctx->yoloCuda.prob, BATCH_SIZE) ;
+
+
             if (!ctx->disable_rendering && ctx->stats)
             {
                 /* EglRenderer requires the fd of the 0th plane to render the buffer. */
@@ -712,6 +786,9 @@ static void *dec_capture_loop_fcn(void *arg)
                     dec_buffer->planes[0].fd = ctx->dmabuff_fd[v4l2_buf.index];
                 ctx->renderer->render(dec_buffer->planes[0].fd);
             }
+
+           
+
 
             /* If we need to write to file or display the buffer, give
                the buffer to video converter output plane instead of

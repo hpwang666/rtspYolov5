@@ -4,6 +4,8 @@
 **/lib
 **/zlog
 **/connet
+**/backup
+**/build
 !aa_bin #aa_bin又会被包含----感叹号
 *.o
 *.a
@@ -12,5 +14,7 @@
 *.la
 *.al
 *.log
+*.raw
+*.cuo
 *~
 **/.vscode

@@ -8,6 +8,7 @@
 #include <fstream>
 #include <pthread.h>
 #include <semaphore.h>
+#include "yolov5.h"
 
 #define USE_NVBUF_TRANSFORM_API
 
@@ -27,6 +28,7 @@ typedef struct
 
     NvEglRenderer *renderer;
 
+    yoloCuda_t yoloCuda;
    
     bool disable_rendering;
     bool fullscreen;

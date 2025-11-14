@@ -50,8 +50,8 @@ int do_decode(decoder_t dec,int chn,int rtpType)
 		return 0;
 	}
 
-	gettimeofday(&tv, NULL);
-	usec=tv.tv_usec;
+	// gettimeofday(&tv, NULL);
+	// usec=tv.tv_usec;
    	//cout << "I0 dec  timestamp " <<    tv.tv_sec << " s  " << tv.tv_usec << "us" << endl;
 
 
@@ -64,8 +64,8 @@ int do_decode(decoder_t dec,int chn,int rtpType)
     	dec->ctx.dec->abort();
 		return 0;
 	}
-	gettimeofday(&tv, NULL);
-	printf(">>>>>>>>%d\r\n",tv.tv_usec-usec);
+	// gettimeofday(&tv, NULL);
+	// printf(">>>>>>>>%d\r\n",tv.tv_usec-usec);
 	
 
 
