@@ -3,11 +3,11 @@ include ../Makefile.pub
 INCLUDES=$(wildcard *.h)
 DEFS =
 CFLAGS := -Wall $(DEFS) -I.  -g 
-CFLAGS +=  -I./   -I../connet/ -I/home/whp/jetson_multimedia_api/rtspYolov5/zlog/output/include -I../connet/util
+CFLAGS +=  -I./   -I../connet/ -I/home/whp/jetson/jetson_multimedia_api/rtspYolov5/zlog/output/include -I../connet/util
 CXXFLAGS:=$(CFLAGS)
 CCFLAGS:=$(CFLAGS)
 LIBPATH := 
-LIBS := -lpthread /home/whp/jetson_multimedia_api/rtspYolov5/zlog/output/lib/libzlog.a ../connet/connet.a
+LIBS := -lpthread /home/whp/jetson/jetson_multimedia_api/rtspYolov5/zlog/output/lib/libzlog.a ../connet/connet.a
 INSTALL_DIR=/home/work/nfs/nvr
 
 

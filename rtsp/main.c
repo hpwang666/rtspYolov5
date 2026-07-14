@@ -165,7 +165,7 @@ int main()
 	signal(SIGINT, on_sig_term);
 
 
-	int rc= zlog_init("/home/whp/jetson_multimedia_api/rtspYolov5/zlog.conf");
+	int rc= zlog_init("/home/whp/jetson/jetson_multimedia_api/rtspYolov5/zlog.conf");
 	if(rc){
 		printf("init zlog failed \r\n");
 		exit(-1);

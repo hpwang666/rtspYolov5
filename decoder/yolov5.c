@@ -13,15 +13,7 @@
 
 using namespace std;
  
- const char* my_classes[] = { "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
-         "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",
-         "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee",
-         "skis", "snowboard", "sports ball", "kite", "baseball bat", "baseball glove", "skateboard","surfboard",
-         "tennis racket", "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple",
-         "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "couch",
-         "potted plant", "bed", "dining table", "toilet", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone",
-         "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors", "teddy bear",
-         "hair drier", "toothbrush" };
+
 
  
 // stuff we know about the network and the input/output blobs
@@ -34,9 +26,8 @@ static const char* OUTPUT_BLOB_NAME = "prob";
 static Logger gLogger;
 
  
-void doInference(IExecutionContext& context, cudaStream_t& stream, void** buffers, float* input, float* output, int batchSize) {
-    // DMA input batch data to device, infer on the batch asynchronously, and DMA output back to host
-    CUDA_CHECK(cudaMemcpyAsync(buffers[0], input, batchSize * 3 * INPUT_H * INPUT_W * sizeof(float), cudaMemcpyHostToDevice, stream));
+void doInference(IExecutionContext& context, cudaStream_t& stream, void **buffers, float* output, int batchSize) {
+    // infer on the batch asynchronously, and DMA output back to host
     context.enqueue(batchSize, buffers, stream, nullptr);
     CUDA_CHECK(cudaMemcpyAsync(output, buffers[1], batchSize * OUTPUT_SIZE * sizeof(float), cudaMemcpyDeviceToHost, stream));
     cudaStreamSynchronize(stream);
@@ -95,13 +86,20 @@ void initCuda(yoloCuda_t& yoloCuda)
         printf ("CUDA device does not support managed memory.\n");
     }
     else printf("CUDA device supports managed memory.\n");
-    cudaMallocManaged ((void **)&yoloCuda.rgb_out_buffer, 1920*1080*3, cudaMemAttachGlobal);
-    //CUDA_CHECK( cudaMalloc((void **)&yoloCuda.rgb_out_buffer, 1920*1080*3));
+   // cudaMallocManaged ((void **)&yoloCuda.rgb_out_buffer, 1920*1080*3, cudaMemAttachGlobal);
+    //cudaMallocManaged ((void **)&yoloCuda.rgb_in_buffer, 1920*1080*3, cudaMemAttachGlobal);
+    CUDA_CHECK( cudaMalloc((void **)&yoloCuda.rgb_in_buffer, 1920*1080*3));
+    CUDA_CHECK( cudaMalloc((void **)&yoloCuda.rgb_out_buffer, 1920*1080*3));
+
     cudaDeviceSynchronize ();
-    unsigned int flags;
-    if(cudaHostGetFlags(&flags, yoloCuda.rgb_out_buffer) == cudaSuccess){
-         printf("flags :%d\r\n",flags);//&& (flags & cudaHostAllocMapped);
-    } 
+    // unsigned int flags;
+    // if(cudaHostGetFlags(&flags, yoloCuda.rgb_out_buffer) == cudaSuccess){
+    //      printf("flags :%d\r\n",flags);//&& (flags & cudaHostAllocMapped);
+    // } 
+
+    CUDA_CHECK(cudaMallocHost((void**)&yoloCuda.img_host, 1920*1080 * 3));
+    // prepare input data cache in device memory
+    CUDA_CHECK(cudaMalloc((void**)&yoloCuda.img_device, 1920*1080 * 3));
 
 
 
@@ -116,6 +114,9 @@ void initCuda(yoloCuda_t& yoloCuda)
 void releaseCuda(yoloCuda_t& yoloCuda)
 {
     CUDA_CHECK(cudaFree (yoloCuda.rgb_out_buffer));
+     CUDA_CHECK(cudaFree (yoloCuda.rgb_in_buffer));
+    CUDA_CHECK(cudaFreeHost (yoloCuda.img_host));
+    CUDA_CHECK(cudaFree (yoloCuda.img_device));
     free(yoloCuda.prob);
     cudaStreamDestroy(yoloCuda.stream);
     CUDA_CHECK(cudaFree(yoloCuda.buffers[yoloCuda.inputIndex]));

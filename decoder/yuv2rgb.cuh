@@ -25,5 +25,10 @@
 
 void gpuConvertYUYVtoRGB(unsigned char *src, unsigned char *dst,
 		unsigned int width, unsigned int height);
+		
+int copy_dmabuf2cuda(int dmabuf_fd,
+                unsigned int plane,
+                unsigned char *stream);
+
 
 #endif

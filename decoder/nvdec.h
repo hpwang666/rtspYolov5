@@ -27,6 +27,8 @@ typedef struct
     uint32_t decoder_pixfmt;
 
     NvEglRenderer *renderer;
+     EGLDisplay egl_display;
+    EGLImageKHR egl_image;
 
     yoloCuda_t yoloCuda;
    

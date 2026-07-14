@@ -15,18 +15,37 @@
 #include <sys/ioctl.h>
 #include <sys/poll.h>
 #include <sys/time.h>
+#include <chrono>
 #include <fcntl.h>
 #include <errno.h>
 #include <pthread.h>
 #include <math.h>
 #include <unistd.h>
 
+#include "common.hpp"
 
 #include "nvbuf_utils.h"
 #include "NvUtils.h"
 #include "NvApplicationProfiler.h"
+
 #include "renderer.h"
 #include "yuv2rgb.cuh"
+#include "rgb2bgr.cuh"
+
+#include "preprocess.cuh"
+
+
+#include <cuda_runtime_api.h>
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
+
+#include <cuda.h>
+#include <cuda_runtime.h>
+
+#include "cudaEGL.h"
+#include "NvAnalysis.h"
 
 
 
@@ -46,7 +65,7 @@ static void abort(context_t *ctx);
 
 #define MICROSECOND_UNIT 1000000
 #define CHUNK_SIZE 4000000
-#define MIN(a,b) (((a) < (b)) ? (a) : (b))
+//#define MIN(a,b) (((a) < (b)) ? (a) : (b))
 
 #define IS_NAL_UNIT_START(buffer_ptr) (!buffer_ptr[0] && !buffer_ptr[1] && \
         !buffer_ptr[2] && (buffer_ptr[3] == 1))
@@ -81,6 +100,19 @@ static bool decoder_proc_blocking(context_t &ctx);
 
 void freeDecoder(context_t& ctx);
 
+void mapEGLImage2Float(void* pEGLImage, void* cuda_buf);
+ bool cuda_postprocess(context_t *ctx, int fd,void* cuda_buf);
+static void Handle_EGLImage(EGLImageKHR image);
+
+ const char* my_classes[] = { "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
+         "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",
+         "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee",
+         "skis", "snowboard", "sports ball", "kite", "baseball bat", "baseball glove", "skateboard","surfboard",
+         "tennis racket", "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple",
+         "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "couch",
+         "potted plant", "bed", "dining table", "toilet", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone",
+         "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors", "teddy bear",
+         "hair drier", "toothbrush" };
 
 void set_defaults(context_t * ctx,int x,int y,int width,int height)
 {
@@ -243,12 +275,19 @@ int initDecoder(context_t& ctx)
       ctx.timestampincr = (MICROSECOND_UNIT * 16) / ((uint32_t) (ctx.dec_fps * 16));
     }
 
+    ctx.egl_display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+   if (ctx.egl_display == EGL_NO_DISPLAY)
+   {
+       fprintf(stderr, "Error while get EGL display connection\n");
+       return -1;
+   }
+
     /* Read encoded data and enqueue all the output plane buffers.
        Exit loop in case file read is complete. */
     i = 0;
 
    
-
+    printf("begin ...\r\n");
      /* Create threads for decoder output */
     if (ctx.blocking_mode)
     {
@@ -413,7 +452,14 @@ void freeDecoder(context_t& ctx)
     }
 #endif
 
-    
+    if (ctx.egl_display)
+    {
+        if(!eglTerminate(ctx.egl_display))
+        {
+            fprintf(stderr, "Error while terminate EGL display connection\n");
+        }
+    }
+
     if (ctx.blocking_mode && ctx.dec_capture_loop)
     {
         pthread_join(ctx.dec_capture_loop, NULL);
@@ -610,6 +656,7 @@ static void *dec_capture_loop_fcn(void *arg)
     int ret;
     int writeFile=0;
     unsigned char tempCap[1920*1080*3];
+    //float tempCudaOut[1920*1080*3];
 
     cout << "Starting decoder capture loop thread" << endl;
     /* Need to wait for the first Resolution change event, so that
@@ -710,8 +757,9 @@ static void *dec_capture_loop_fcn(void *arg)
                   v4l2_buf.timestamp.tv_sec << "s" << v4l2_buf.timestamp.tv_usec << "us]" << endl;
             }
 
-
-             NvBufferRect src_rect, dest_rect;
+            auto start = std::chrono::system_clock::now();
+            auto end = std::chrono::system_clock::now();
+                NvBufferRect src_rect, dest_rect;
                 src_rect.top = 0;
                 src_rect.left = 0;
                 src_rect.width = ctx->display_width;
@@ -747,8 +795,18 @@ static void *dec_capture_loop_fcn(void *arg)
                      * two planes for NV12, NV16, NV24 and
                      * three planes for I420, I422, I444
                      */
-                    ret = copy_dmabuf(ctx->dst_dma_fd, 0,  tempCap);
-                    printf("ret=%d\r\n",ret);
+                    start = std::chrono::system_clock::now();
+                   
+                    //copy_dmabuf2cuda(ctx->dst_dma_fd,0,ctx->yoloCuda.img_host);
+                     cuda_postprocess(ctx,ctx->dst_dma_fd,ctx->yoloCuda.rgb_in_buffer)  ; 
+                      end = std::chrono::system_clock::now();
+                     std::cout << "copy_dmabuf time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
+
+                    //  start = std::chrono::system_clock::now();
+               //  cudaMemcpy(ctx->yoloCuda.rgb_in_buffer, ctx->yoloCuda.img_host,1920*1080*2,cudaMemcpyHostToDevice);
+                   //      end = std::chrono::system_clock::now();
+                   // std::cout << "cudaMemcpy time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
+
 
                     // dump_dmabuf(ctx->dst_dma_fd, 0, ctx->out_file);
                     // if (ctx->out_pixfmt != 7)
@@ -763,22 +821,88 @@ static void *dec_capture_loop_fcn(void *arg)
                 }
 
 
-            printf("capture len :%d \r\n",dec_buffer->planes[0].bytesused);
-            gpuConvertYUYVtoRGB ((unsigned char *)tempCap, ctx->yoloCuda.rgb_out_buffer, 1920, 1080);
+           // printf("capture len :%d \r\n",dec_buffer->planes[0].bytesused);
+             start = std::chrono::system_clock::now();
+            gpuConvertYUYVtoRGB ((unsigned char *)ctx->yoloCuda.rgb_in_buffer, ctx->yoloCuda.rgb_out_buffer, 1920, 1080);
+            end = std::chrono::system_clock::now();
+            std::cout << "gpuConvertYUYVtoRGB time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
             if(writeFile==10){
                 char str[128];
                 printf("capture len :%d \r\n",dec_buffer->planes[0].length);
                 FILE *fp= fopen("aa.raw","wb");
                 sprintf (str, "P6\n%u %u\n255\n", 1920, 1080);
                 fwrite(str,1,strlen(str),fp);
-                fwrite(ctx->yoloCuda.rgb_out_buffer,1,1920*1080*3,fp);
+                cudaMemcpy(ctx->yoloCuda.img_host, ctx->yoloCuda.rgb_out_buffer,1920*1080*3,cudaMemcpyDeviceToHost);
+                fwrite(ctx->yoloCuda.img_host,1,1920*1080*3,fp);
                 //sleep(1);
                 fclose(fp);
             }
             writeFile++;
-            // doInference(*ctx->yoloCuda.context, ctx->yoloCuda.stream, ctx->yoloCuda.buffers,  ctx->yoloCuda.rgb_out_buffer,  ctx->yoloCuda.prob, BATCH_SIZE) ;
+            float* buffer_idx = (float*)ctx->yoloCuda.buffers[ctx->yoloCuda.inputIndex];
+           // cudaMemcpyAsync(ctx->yoloCuda.img_device,ctx->yoloCuda.rgb_out_buffer,1920*1080*3,cudaMemcpyHostToDevice,ctx->yoloCuda.stream);
+            //cudaMemcpy(ctx->yoloCuda.img_device,ctx->yoloCuda.rgb_out_buffer,1920*1080*3,cudaMemcpyDeviceToDevice);
+              start = std::chrono::system_clock::now();
+            preprocess_kernel_img(ctx->yoloCuda.rgb_out_buffer, 1920, 1080, buffer_idx, 640, 640, ctx->yoloCuda.stream);
+            end = std::chrono::system_clock::now();
+           std::cout << "preprocess_kernel_img time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
+            start = std::chrono::system_clock::now();
+            doInference(*ctx->yoloCuda.context, ctx->yoloCuda.stream, ctx->yoloCuda.buffers,  ctx->yoloCuda.prob, 1) ;
+             end = std::chrono::system_clock::now();
+            std::cout << "doInference time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
+        
+#if 1
+            std::vector<std::vector<Yolo::Detection>> batch_res(1);
+           // cudaMemcpy(ctx->yoloCuda.img_host, ctx->yoloCuda.rgb_out_buffer,1920*1080*3,cudaMemcpyDeviceToHost);
+            auto& res = batch_res[0];
+            nms(res, ctx->yoloCuda.prob, CONF_THRESH, NMS_THRESH);
+            start = std::chrono::system_clock::now();
+            {
+                // int i = 0;
+                // for (int row = 0; row < 1080; ++row) {
+                //     uchar* uc_pixel = ctx->yoloCuda.img_host + row * 5760;
+                //    // i+=row * 5760;
+                //     for (int col = 0; col < 1920; ++col) {
+                //         tempCap[ i] = uc_pixel[2];
+                //         tempCap[ i +1] = uc_pixel[1];
+                //         tempCap[ i + 2 ] = uc_pixel[0];
+                //         uc_pixel += 3;
+                //         i+=3;
+                //     }
+                // }
+
+                rgb2bgr_cuda( ctx->yoloCuda.rgb_out_buffer,ctx->yoloCuda.rgb_in_buffer,1920,1080,ctx->yoloCuda.stream);
+            }
+            end = std::chrono::system_clock::now();
+            cudaMemcpy(ctx->yoloCuda.img_host, ctx->yoloCuda.rgb_out_buffer,1920*1080*3,cudaMemcpyDeviceToHost);
+            std::cout << "convert time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
+             start = std::chrono::system_clock::now();
+            cv::Mat frame(1080, 1920, CV_8UC3, ctx->yoloCuda.img_host);
 
 
+
+            {
+                auto&res = batch_res[0];
+                std::cout << res.size() <<std::endl;
+                //cv::Mat img = cv::imread(img_dir + "/" + file_names[f - fcount + 1 + b]);
+                
+                for (size_t j = 0; j < res.size(); j++) {
+                    cv::Rect r = get_rect(frame, res[j].bbox);
+                    cv::rectangle(frame, r, cv::Scalar(0x27, 0xC1, 0x36), 2);
+                    std::string label = my_classes[(int)res[j].class_id];
+                    cv::putText(frame, label, cv::Point(r.x, r.y - 1), cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0xFF, 0xFF, 0xFF), 2);
+                   // std::string jetson_fps = "Jetson Nano FPS: " + std::to_string(fps);
+                   // cv::putText(frame, jetson_fps, cv::Point(11, 80), cv::FONT_HERSHEY_PLAIN, 3, cv::Scalar(0, 0, 255), 2, cv::LINE_AA);
+                }
+                //cv::imwrite("_" + file_names[f - fcount + 1 + b], img);
+            }
+
+            
+            cv::imshow("yolov5", frame);
+            end = std::chrono::system_clock::now();
+            
+            std::cout << "cv time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
+            cv::waitKey(1);
+#endif
             if (!ctx->disable_rendering && ctx->stats)
             {
                 /* EglRenderer requires the fd of the 0th plane to render the buffer. */
@@ -865,3 +989,127 @@ abort(context_t *ctx)
     }
 #endif
 }
+
+ bool cuda_postprocess(context_t *ctx, int fd,void *cuda_buf)
+{
+    
+    /* Create EGLImage from dmabuf fd */
+    ctx->egl_image = NvEGLImageFromFd(ctx->egl_display, fd);
+    if (ctx->egl_image == NULL)
+        printf("Failed to map dmabuf fd  to EGLImage");
+
+    /* Pass this buffer hooked on this egl_image to CUDA for
+        CUDA processing - draw a rectangle on the frame */
+    mapEGLImage2Float(&ctx->egl_image,cuda_buf);
+   //Handle_EGLImage(ctx->egl_image);
+
+    /* Destroy EGLImage */
+    NvDestroyEGLImage(ctx->egl_display, ctx->egl_image);
+    ctx->egl_image = NULL;
+
+
+    return true;
+}
+
+static void
+Handle_EGLImage(EGLImageKHR image)
+{
+    CUresult status;
+    CUeglFrame eglFrame;
+    CUgraphicsResource pResource = NULL;
+
+    //cudaFree(0);
+    status = cuGraphicsEGLRegisterImage(&pResource, image,
+                CU_GRAPHICS_MAP_RESOURCE_FLAGS_NONE);
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuGraphicsEGLRegisterImage failed: %d, cuda process stop\n",
+                        status);
+        return;
+    }
+
+    status = cuGraphicsResourceGetMappedEglFrame(&eglFrame, pResource, 0, 0);
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuGraphicsSubResourceGetMappedArray failed\n");
+    }
+
+    status = cuCtxSynchronize();
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuCtxSynchronize failed\n");
+    }
+
+    if (eglFrame.frameType == CU_EGL_FRAME_TYPE_PITCH)
+    {
+        //Rect label in plan Y, you can replace this with any cuda algorithms.
+        addLabels((CUdeviceptr) eglFrame.frame.pPitch[0], eglFrame.pitch);
+    }
+
+    status = cuCtxSynchronize();
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuCtxSynchronize failed after memcpy\n");
+    }
+
+    status = cuGraphicsUnregisterResource(pResource);
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuGraphicsEGLUnRegisterResource failed: %d\n", status);
+    }
+}
+
+void mapEGLImage2Float(void* pEGLImage, void* cuda_buf)
+{
+    CUresult status;
+    CUeglFrame eglFrame;
+    CUgraphicsResource pResource = NULL;
+    EGLImageKHR *pImage = (EGLImageKHR *)pEGLImage;
+
+    status = cuGraphicsEGLRegisterImage(&pResource, *pImage,
+                CU_GRAPHICS_MAP_RESOURCE_FLAGS_NONE);
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuGraphicsEGLRegisterImage failed: %d, cuda process stop\n",
+                        status);
+        return;
+    }
+
+    status = cuGraphicsResourceGetMappedEglFrame(&eglFrame, pResource, 0, 0);
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuGraphicsSubResourceGetMappedArray failed\n");
+    }
+
+    status = cuCtxSynchronize();
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuCtxSynchronize failed\n");
+    }
+
+    if (eglFrame.frameType == CU_EGL_FRAME_TYPE_PITCH)
+    {
+        // Using GPU to convert int buffer into float buffer.
+        // convertIntToFloat((CUdeviceptr) eglFrame.frame.pPitch[0],
+        //                   width,
+        //                   height,
+        //                   eglFrame.pitch,
+        //                   color_format,
+        //                   offsets,
+        //                   scales,
+        //                   cuda_buf);
+         cudaMemcpy(cuda_buf,eglFrame.frame.pPitch[0],1920*1080 * 2, cudaMemcpyDeviceToDevice);
+    }
+    status = cuCtxSynchronize();
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuCtxSynchronize failed after memcpy\n");
+    }
+
+    status = cuGraphicsUnregisterResource(pResource);
+    if (status != CUDA_SUCCESS)
+    {
+        printf("cuGraphicsEGLUnRegisterResource failed: %d\n", status);
+    }
+}
+

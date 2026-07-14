@@ -3,9 +3,8 @@
 #define _YOLOV5_H
 
 
-
-#include "logging.h"
 #include "yololayer.h"
+#include "logging.h"
 
 
 
@@ -16,8 +15,8 @@
 #define BATCH_SIZE 1
  
 
-
 using namespace nvinfer1;
+
 typedef struct {
     //cuda
     float *prob;
@@ -29,13 +28,18 @@ typedef struct {
     void* buffers[2];
     int inputIndex;
     int outputIndex;
-    unsigned char *rgb_out_buffer;
+    uint8_t *rgb_out_buffer;
+    uint8_t *rgb_in_buffer;
+    uint8_t* img_host ;
+    uint8_t* img_device ;
+
+
     
 }yoloCuda_t;
 
 
 void initCuda(yoloCuda_t& yoloCuda);
 void releaseCuda(yoloCuda_t& yoloCuda);
-void doInference(IExecutionContext& context, cudaStream_t& stream, void** buffers, float* input, float* output, int batchSize) ;
+void doInference(IExecutionContext& context, cudaStream_t& stream, void **buffers, float* output, int batchSize) ;
 
 #endif
