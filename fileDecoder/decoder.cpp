@@ -1781,7 +1781,7 @@ static bool decoder_proc_blocking(context_t &ctx, bool eos, uint32_t current_fil
     TEST_ERROR(!ctx.dec, "Could not create decoder", cleanup);
 
     ctx.in_file_path = (char **)malloc(sizeof(char *)*ctx.file_count);
-    ctx.in_file_path[0]=strdup("/home/whp/tensorrtx-yolov5-v6.0/yolov5/samples/v1080_1_60.264");
+    ctx.in_file_path[0]=strdup("/home/whp/jetson/jetson_multimedia_api/data/Video/v1080_60.264");
     /* Open the input file. */
     ctx.in_file = (std::ifstream **)malloc(sizeof(std::ifstream *)*ctx.file_count);
     for (uint32_t i = 0 ; i < ctx.file_count ; i++)

@@ -29,6 +29,12 @@ typedef struct
     NvEglRenderer *renderer;
      EGLDisplay egl_display;
     EGLImageKHR egl_image;
+    
+    // Cached resources for cuda_postprocess optimization
+    EGLImageKHR cached_egl_image;
+    void* cached_cuda_resource;  // CUgraphicsResource
+    int cached_fd;
+    bool resource_registered;
 
     yoloCuda_t yoloCuda;
    

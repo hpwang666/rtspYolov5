@@ -23,8 +23,10 @@
 #ifndef __YUV2RGB_CUH__
 #define __YUV2RGB_CUH__
 
+#include <cuda_runtime.h>
+
 void gpuConvertYUYVtoRGB(unsigned char *src, unsigned char *dst,
-		unsigned int width, unsigned int height);
+		unsigned int width, unsigned int height, cudaStream_t stream);
 		
 int copy_dmabuf2cuda(int dmabuf_fd,
                 unsigned int plane,

@@ -1,5 +1,7 @@
 #include "preprocess.h"
-#include <opencv2/opencv.hpp>
+// 只包含需要的 OpenCV 核心模块，避免编译整个 opencv.hpp
+#include <opencv2/core.hpp>       // cv::Mat
+#include <opencv2/imgproc.hpp>    // cv::invertAffineTransform
 
 __global__ void warpaffine_kernel( 
     uint8_t* src, int src_line_size, int src_width, 

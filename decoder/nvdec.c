@@ -100,9 +100,7 @@ static bool decoder_proc_blocking(context_t &ctx);
 
 void freeDecoder(context_t& ctx);
 
-void mapEGLImage2Float(void* pEGLImage, void* cuda_buf);
  bool cuda_postprocess(context_t *ctx, int fd,void* cuda_buf);
-static void Handle_EGLImage(EGLImageKHR image);
 
  const char* my_classes[] = { "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
          "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",
@@ -120,7 +118,7 @@ void set_defaults(context_t * ctx,int x,int y,int width,int height)
     ctx->decoder_pixfmt = V4L2_PIX_FMT_H264;
     ctx->input_nalu=1;
     ctx->stats=true;
-    ctx->disable_rendering=false;
+    ctx->disable_rendering=true;
     ctx->fullscreen = false;
     ctx->window_height = height;
     ctx->window_width = width;
@@ -144,6 +142,13 @@ void set_defaults(context_t * ctx,int x,int y,int width,int height)
     ctx->extra_cap_plane_buffer = 1;
     ctx->blocking_mode = 1;
     ctx->qBuf_count=0;
+    
+    // Initialize cached resources for optimization
+    ctx->cached_egl_image = NULL;
+    ctx->cached_cuda_resource = NULL;
+    ctx->cached_fd = -1;
+    ctx->resource_registered = false;
+    
 #ifndef USE_NVBUF_TRANSFORM_API
     ctx->conv_output_plane_buf_queue = new queue < NvBuffer * >;
     ctx->rescale_method = V4L2_YUV_RESCALE_NONE;
@@ -451,6 +456,26 @@ void freeDecoder(context_t& ctx)
         ctx.conv->capture_plane.waitForDQThread(-1);
     }
 #endif
+
+    // Clean up cached CUDA resources before terminating EGL
+    if (ctx.resource_registered && ctx.cached_cuda_resource != NULL)
+    {
+        CUgraphicsResource pResource = (CUgraphicsResource)ctx.cached_cuda_resource;
+        CUresult status = cuGraphicsUnregisterResource(pResource);
+        if (status != CUDA_SUCCESS)
+        {
+            printf("Warning: Failed to unregister cached CUDA resource: %d\n", status);
+        }
+        ctx.cached_cuda_resource = NULL;
+        ctx.resource_registered = false;
+    }
+    
+    if (ctx.cached_egl_image != NULL)
+    {
+        NvDestroyEGLImage(ctx.egl_display, ctx.cached_egl_image);
+        ctx.cached_egl_image = NULL;
+    }
+    ctx.cached_fd = -1;
 
     if (ctx.egl_display)
     {
@@ -823,7 +848,7 @@ static void *dec_capture_loop_fcn(void *arg)
 
            // printf("capture len :%d \r\n",dec_buffer->planes[0].bytesused);
              start = std::chrono::system_clock::now();
-            gpuConvertYUYVtoRGB ((unsigned char *)ctx->yoloCuda.rgb_in_buffer, ctx->yoloCuda.rgb_out_buffer, 1920, 1080);
+            gpuConvertYUYVtoRGB ((unsigned char *)ctx->yoloCuda.rgb_in_buffer, ctx->yoloCuda.rgb_out_buffer, 1920, 1080, ctx->yoloCuda.stream);
             end = std::chrono::system_clock::now();
             std::cout << "gpuConvertYUYVtoRGB time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
             if(writeFile==10){
@@ -849,9 +874,9 @@ static void *dec_capture_loop_fcn(void *arg)
             doInference(*ctx->yoloCuda.context, ctx->yoloCuda.stream, ctx->yoloCuda.buffers,  ctx->yoloCuda.prob, 1) ;
              end = std::chrono::system_clock::now();
             std::cout << "doInference time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
-        
-#if 1
             std::vector<std::vector<Yolo::Detection>> batch_res(1);
+#if 0
+           
            // cudaMemcpy(ctx->yoloCuda.img_host, ctx->yoloCuda.rgb_out_buffer,1920*1080*3,cudaMemcpyDeviceToHost);
             auto& res = batch_res[0];
             nms(res, ctx->yoloCuda.prob, CONF_THRESH, NMS_THRESH);
@@ -879,7 +904,7 @@ static void *dec_capture_loop_fcn(void *arg)
             cv::Mat frame(1080, 1920, CV_8UC3, ctx->yoloCuda.img_host);
 
 
-
+            
             {
                 auto&res = batch_res[0];
                 std::cout << res.size() <<std::endl;
@@ -898,10 +923,9 @@ static void *dec_capture_loop_fcn(void *arg)
 
             
             cv::imshow("yolov5", frame);
-            end = std::chrono::system_clock::now();
-            
-            std::cout << "cv time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
             cv::waitKey(1);
+            end = std::chrono::system_clock::now();
+            std::cout << "cv time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
 #endif
             if (!ctx->disable_rendering && ctx->stats)
             {
@@ -992,124 +1016,77 @@ abort(context_t *ctx)
 
  bool cuda_postprocess(context_t *ctx, int fd,void *cuda_buf)
 {
+    CUresult status;
+    CUeglFrame eglFrame;
+    CUgraphicsResource pResource;
     
-    /* Create EGLImage from dmabuf fd */
-    ctx->egl_image = NvEGLImageFromFd(ctx->egl_display, fd);
-    if (ctx->egl_image == NULL)
-        printf("Failed to map dmabuf fd  to EGLImage");
-
-    /* Pass this buffer hooked on this egl_image to CUDA for
-        CUDA processing - draw a rectangle on the frame */
-    mapEGLImage2Float(&ctx->egl_image,cuda_buf);
-   //Handle_EGLImage(ctx->egl_image);
-
-    /* Destroy EGLImage */
-    NvDestroyEGLImage(ctx->egl_display, ctx->egl_image);
-    ctx->egl_image = NULL;
-
-
+    // Check if we need to create/recreate EGLImage
+    // Only create when fd changes or first time
+    if (ctx->cached_fd != fd || ctx->cached_egl_image == NULL) {
+        // Clean up old cached resources if they exist
+        if (ctx->resource_registered && ctx->cached_cuda_resource != NULL) {
+            pResource = (CUgraphicsResource)ctx->cached_cuda_resource;
+            status = cuGraphicsUnregisterResource(pResource);
+            if (status != CUDA_SUCCESS) {
+                printf("Warning: cuGraphicsUnregisterResource failed during cleanup: %d\n", status);
+            }
+            ctx->resource_registered = false;
+        }
+        
+        if (ctx->cached_egl_image != NULL) {
+            NvDestroyEGLImage(ctx->egl_display, ctx->cached_egl_image);
+            ctx->cached_egl_image = NULL;
+        }
+        
+        // Create new EGLImage from dmabuf fd
+        ctx->cached_egl_image = NvEGLImageFromFd(ctx->egl_display, fd);
+        if (ctx->cached_egl_image == NULL) {
+            printf("Failed to map dmabuf fd to EGLImage\n");
+            return false;
+        }
+        
+        // Register EGLImage with CUDA
+        status = cuGraphicsEGLRegisterImage(&pResource, ctx->cached_egl_image,
+                    CU_GRAPHICS_MAP_RESOURCE_FLAGS_NONE);
+        if (status != CUDA_SUCCESS) {
+            printf("cuGraphicsEGLRegisterImage failed: %d\n", status);
+            NvDestroyEGLImage(ctx->egl_display, ctx->cached_egl_image);
+            ctx->cached_egl_image = NULL;
+            return false;
+        }
+        
+        ctx->cached_cuda_resource = (void*)pResource;
+        ctx->cached_fd = fd;
+        ctx->resource_registered = true;
+        
+        printf("Created and cached new EGLImage for fd=%d\n", fd);
+    }
+    // Use cached resource
+    pResource = (CUgraphicsResource)ctx->cached_cuda_resource;
+    
+    // Get mapped EGL frame
+    status = cuGraphicsResourceGetMappedEglFrame(&eglFrame, pResource, 0, 0);
+    if (status != CUDA_SUCCESS) {
+        printf("cuGraphicsResourceGetMappedEglFrame failed: %d\n", status);
+        return false;
+    }
+    
+    // Copy data using async memcpy if stream is available
+    if (eglFrame.frameType == CU_EGL_FRAME_TYPE_PITCH) {
+        if (ctx->yoloCuda.stream != NULL) {
+            // Use async copy with stream for better performance
+            cudaMemcpyAsync(cuda_buf, eglFrame.frame.pPitch[0], 
+                          1920*1080*2, cudaMemcpyDeviceToDevice, ctx->yoloCuda.stream);
+        } else {
+            // Fallback to sync copy
+            cudaMemcpy(cuda_buf, eglFrame.frame.pPitch[0], 
+                      1920*1080*2, cudaMemcpyDeviceToDevice);
+        }
+    }
+    
+    // No need for cuCtxSynchronize here if using async operations
+    // The synchronization will happen naturally in the stream
+    
+    // Keep resources cached - don't unregister or destroy
     return true;
 }
-
-static void
-Handle_EGLImage(EGLImageKHR image)
-{
-    CUresult status;
-    CUeglFrame eglFrame;
-    CUgraphicsResource pResource = NULL;
-
-    //cudaFree(0);
-    status = cuGraphicsEGLRegisterImage(&pResource, image,
-                CU_GRAPHICS_MAP_RESOURCE_FLAGS_NONE);
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuGraphicsEGLRegisterImage failed: %d, cuda process stop\n",
-                        status);
-        return;
-    }
-
-    status = cuGraphicsResourceGetMappedEglFrame(&eglFrame, pResource, 0, 0);
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuGraphicsSubResourceGetMappedArray failed\n");
-    }
-
-    status = cuCtxSynchronize();
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuCtxSynchronize failed\n");
-    }
-
-    if (eglFrame.frameType == CU_EGL_FRAME_TYPE_PITCH)
-    {
-        //Rect label in plan Y, you can replace this with any cuda algorithms.
-        addLabels((CUdeviceptr) eglFrame.frame.pPitch[0], eglFrame.pitch);
-    }
-
-    status = cuCtxSynchronize();
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuCtxSynchronize failed after memcpy\n");
-    }
-
-    status = cuGraphicsUnregisterResource(pResource);
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuGraphicsEGLUnRegisterResource failed: %d\n", status);
-    }
-}
-
-void mapEGLImage2Float(void* pEGLImage, void* cuda_buf)
-{
-    CUresult status;
-    CUeglFrame eglFrame;
-    CUgraphicsResource pResource = NULL;
-    EGLImageKHR *pImage = (EGLImageKHR *)pEGLImage;
-
-    status = cuGraphicsEGLRegisterImage(&pResource, *pImage,
-                CU_GRAPHICS_MAP_RESOURCE_FLAGS_NONE);
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuGraphicsEGLRegisterImage failed: %d, cuda process stop\n",
-                        status);
-        return;
-    }
-
-    status = cuGraphicsResourceGetMappedEglFrame(&eglFrame, pResource, 0, 0);
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuGraphicsSubResourceGetMappedArray failed\n");
-    }
-
-    status = cuCtxSynchronize();
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuCtxSynchronize failed\n");
-    }
-
-    if (eglFrame.frameType == CU_EGL_FRAME_TYPE_PITCH)
-    {
-        // Using GPU to convert int buffer into float buffer.
-        // convertIntToFloat((CUdeviceptr) eglFrame.frame.pPitch[0],
-        //                   width,
-        //                   height,
-        //                   eglFrame.pitch,
-        //                   color_format,
-        //                   offsets,
-        //                   scales,
-        //                   cuda_buf);
-         cudaMemcpy(cuda_buf,eglFrame.frame.pPitch[0],1920*1080 * 2, cudaMemcpyDeviceToDevice);
-    }
-    status = cuCtxSynchronize();
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuCtxSynchronize failed after memcpy\n");
-    }
-
-    status = cuGraphicsUnregisterResource(pResource);
-    if (status != CUDA_SUCCESS)
-    {
-        printf("cuGraphicsEGLUnRegisterResource failed: %d\n", status);
-    }
-}
-

@@ -82,7 +82,7 @@ __global__ void gpuConvertYUYVtoRGB_kernel_(unsigned char *src, unsigned char *d
 
 
 void gpuConvertYUYVtoRGB(unsigned char *src, unsigned char *dst,
-		unsigned int width, unsigned int height)
+		unsigned int width, unsigned int height, cudaStream_t stream)
 {
 	unsigned char *d_src = src;
 	unsigned char *d_dst = dst;
@@ -118,10 +118,10 @@ void gpuConvertYUYVtoRGB(unsigned char *src, unsigned char *dst,
     int threads = 512;
     int blocks = ceil(jobs / (float)threads);
     
-    // 启动核函数
+    // 启动核函数 - 使用指定的stream以保证与其他操作的同步
    // rgb2bgr_kernel<<<gridDim, blockDim>>>(d_src, d_dst, width, height, 3);
 
-    gpuConvertYUYVtoRGB_kernel_<<<blocks, threads>>>(d_src, d_dst, width, height);     
+    gpuConvertYUYVtoRGB_kernel_<<<blocks, threads, 0, stream>>>(d_src, d_dst, width, height);     
 
 //	cudaStreamAttachMemAsync(NULL, dst, 0, cudaMemAttachHost);
 	//cudaStreamSynchronize(NULL);
